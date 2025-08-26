@@ -1,0 +1,202 @@
+/* styles.css */
+
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background-color: #f9f9f9;
+  color: #333;
+  line-height: 1.6;
+}
+
+/* Header */
+.header {
+  background: #111;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.nav a {
+  margin-left: 20px;
+  color: white;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.nav a:hover {
+  color: #00b341;
+}
+
+/* Hero */
+.hero {
+  background: #222;
+  color: white;
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.hero-title {
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+}
+
+.hero-subtitle {
+  font-size: 1.2rem;
+  margin-bottom: 25px;
+}
+
+.btn-primary {
+  background: #00b341;
+  border: none;
+  padding: 12px 25px;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background 0.3s;
+}
+
+.btn-primary:hover {
+  background: #009431;
+}
+
+/* Catálogo */
+.catalogo {
+  padding: 40px 20px;
+}
+
+.section-title {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 30px;
+}
+
+.filtros {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+.btn-filter {
+  border: 1px solid #00b341;
+  background: white;
+  padding: 8px 15px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.3s;
+}
+
+.btn-filter.active,
+.btn-filter:hover {
+  background: #00b341;
+  color: white;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.card-img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.card-content {
+  padding: 15px;
+}
+
+.card-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.card-category {
+  color: #666;
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+}
+
+.card-price {
+  font-weight: bold;
+  color: #00b341;
+  margin-bottom: 12px;
+}
+
+.btn-secondary {
+  background: #111;
+  color: white;
+  border: none;
+  padding: 10px;
+  width: 100%;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background 0.3s;
+}
+
+.btn-secondary:hover {
+  background: #333;
+}
+
+/* Footer */
+.footer {
+  background: #111;
+  color: white;
+  text-align: center;
+  padding: 20px;
+}
+
+.footer-icons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+/* WhatsApp */
+.whatsapp-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #25d366;
+  color: white;
+  font-size: 1.5rem;
+  padding: 15px;
+  border-radius: 50%;
+  text-decoration: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  transition: background 0.3s;
+}
+
+.whatsapp-btn:hover {
+  background: #1ebe5d;
+}
