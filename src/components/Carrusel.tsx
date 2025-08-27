@@ -2,8 +2,11 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import "./carrusel.css";
+import { createClient } from "@supabase/supabase-js"; // Importamos cliente de Supabase
 
+// Definimos el tipo de dato que esperas de Supabase
 type Diapositiva = {
+  id: number;          // 👈 importante tener un id único en la tabla
   imagen: string;
   texto1: string;
   texto2: string;
@@ -12,42 +15,34 @@ type Diapositiva = {
 };
 
 type CarruselProps = {
-  diapositivas?: Diapositiva[];
   intervalo?: number;
 };
 
-const Carrusel: React.FC<CarruselProps> = ({
-  diapositivas = [
-    {
-      imagen: "../src/assets/flyer_comp.webp",
-      texto1: "Instalación Rápida y Profesional.",
-      texto2: "Costes Accesibles para hogares y pequeños negocios.",
-      titulo: "CCTV, Sistemas de Videovigilancia.",
-      textoBoton: "Cotiza Ahora!",
-    },
-    {
-      imagen: "/_images/7UjPhg8eaKKRwvvGNDCupg0p.webp",
-      texto1: "Tecnología de última generación",
-      texto2: "Soluciones adaptadas a tus necesidades",
-      titulo: "Seguridad 24/7",
-      textoBoton: "Ver Productos",
-    },
-    {
-      imagen: "/_images/vgnQfETQVpYNxLvxUdTfAnFv.webp",
-      texto1: "Monitoreo remoto",
-      texto2: "Acceso desde cualquier dispositivo",
-      titulo: "Control Total",
-      textoBoton: "Más Información",
-    },
-  ],
-  intervalo = 5000,
-}) => {
+// Creamos cliente de Supabase con tus variables de entorno
+const supabase = createClient(
+  import.meta.env.VITE_SUPABASE_URL as string,
+  import.meta.env.VITE_SUPABASE_ANON_KEY as string
+);
+
+const Carrusel: React.FC<CarruselProps> = ({ intervalo = 5000 }) => {
+  const [diapositivas, setDiapositivas] = useState<Diapositiva[]>([]);
   const [indiceActual, setIndiceActual] = useState(0);
   const [progreso, setProgreso] = useState(62.8);
-  const intervaloRef = useRef<NodeJS.Timeout | null>(null);
-  const progresoRef = useRef<NodeJS.Timeout | null>(null);
+  const intervaloRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const progresoRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const inicioProgresoRef = useRef<number | null>(null);
 
+  // 🔹 Función para traer datos de Supabase
+  const fetchDiapositivas = async () => {
+    const { data, error } = await supabase.from("diapositivas").select("*");
+    if (error) {
+      console.error("Error cargando diapositivas:", error.message);
+    } else {
+      setDiapositivas(data || []); // Guardamos los resultados
+    }
+  };
+
+  // 🔹 Animación del círculo de progreso
   const iniciarAnimacionProgreso = () => {
     detenerAnimacionProgreso();
     setProgreso(62.8);
@@ -71,6 +66,7 @@ const Carrusel: React.FC<CarruselProps> = ({
     }
   };
 
+  // 🔹 Control de autoplay
   const iniciarAutoPlay = () => {
     detenerAutoPlay();
     iniciarAnimacionProgreso();
@@ -85,6 +81,7 @@ const Carrusel: React.FC<CarruselProps> = ({
     detenerAnimacionProgreso();
   };
 
+  // 🔹 Navegación entre diapositivas
   const siguienteDiapositiva = () => {
     setIndiceActual((prev) => (prev + 1) % diapositivas.length);
     reiniciarAutoPlay();
@@ -108,10 +105,23 @@ const Carrusel: React.FC<CarruselProps> = ({
     iniciarAutoPlay();
   };
 
+  // 🔹 Efecto inicial: cargamos diapositivas desde Supabase
   useEffect(() => {
-    iniciarAutoPlay();
-    return () => detenerAutoPlay();
+    fetchDiapositivas(); // Llamamos a Supabase al montar el componente
   }, []);
+
+  // 🔹 Efecto para autoplay (cuando ya hay datos cargados)
+  useEffect(() => {
+    if (diapositivas.length > 0) {
+      iniciarAutoPlay();
+      return () => detenerAutoPlay();
+    }
+  }, [diapositivas]);
+
+  // Si no hay diapositivas cargadas aún mostramos un loader
+  if (diapositivas.length === 0) {
+    return <p>Cargando carrusel...</p>;
+  }
 
   const diapositivaActual = diapositivas[indiceActual];
 
@@ -126,7 +136,10 @@ const Carrusel: React.FC<CarruselProps> = ({
         </div>
 
         <div className="header_nav-wrapper">
-          <div className="carrousel_arrow carrousel_arrow-left" onClick={anteriorDiapositiva}>
+          <div
+            className="carrousel_arrow carrousel_arrow-left"
+            onClick={anteriorDiapositiva}
+          >
             ◀
           </div>
 
@@ -134,7 +147,9 @@ const Carrusel: React.FC<CarruselProps> = ({
             {diapositivas.map((_, index) => (
               <li key={index}>
                 <button
-                  className={`carrosel_dot ${indiceActual === index ? "active" : ""}`}
+                  className={`carrosel_dot ${
+                    indiceActual === index ? "active" : ""
+                  }`}
                   onClick={() => irADiapositiva(index)}
                   aria-label={`Ir a la diapositiva ${index + 1}`}
                 >
@@ -156,7 +171,10 @@ const Carrusel: React.FC<CarruselProps> = ({
             ))}
           </ul>
 
-          <div className="carrousel_arrow carrousel_arrow-right" onClick={siguienteDiapositiva}>
+          <div
+            className="carrousel_arrow carrousel_arrow-right"
+            onClick={siguienteDiapositiva}
+          >
             ▶
           </div>
         </div>
@@ -165,10 +183,12 @@ const Carrusel: React.FC<CarruselProps> = ({
       <div className="header_image-wrapper">
         {diapositivas.map((slide, index) => (
           <img
-            key={index}
+            key={slide.id}
             src={slide.imagen}
             alt={slide.titulo}
-            className={`header_image ${indiceActual === index ? "active" : ""}`}
+            className={`header_image ${
+              indiceActual === index ? "active" : ""
+            }`}
             loading="eager"
           />
         ))}
