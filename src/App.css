@@ -1,202 +1,264 @@
-/* styles.css */
+:root {
+    --Nll_Black-col: #09090A;
+    --Nll_White-col: #F6F5FF;
+	--input_bg: light-dark(oklch(0.99 0 0), oklch(0.21 0 0));
+    --input_outline: light-dark(oklch(0.89 0 0), oklch(0.30 0 0));
+    --input_disabled-bg: light-dark(color-mix(in srgb, var(--input_bg) 58%, var(--input_outline) 42%), color-mix(in srgb, var(--input_bg) 42%, var(--input_outline) 58%));
+    --input_focus: light-dark(oklch(0.51 0.23 261.73), oklch(0.55 0.18 269.79));
+    --input_focus-bg: color-mix(in srgb, var(--input_focus) 2%, var(--input_bg) 98%);
+    --input_focus-outline: color-mix(in srgb, var(--input_focus) 8%, var(--input_bg) 92%);
+    --input_invalid: light-dark(oklch(0.58 0.23 20.57), oklch(0.61 0.17 19.19));
+    --input_invalid-bg: color-mix(in srgb, var(--input_invalid) 2%, var(--input_bg) 98%);
+    --input_invalid-outline: color-mix(in srgb, var(--input_invalid) 8%, var(--input_bg) 92%);
+}
 
-/* Reset básico */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: Arial, sans-serif;
+/*? Nll_ Reset css */
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font: unset;
+    color: unset;
+    vertical-align: -webkit-baseline-middle;
+}
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+    display: block;
 }
 
 body {
-  background-color: #f9f9f9;
-  color: #333;
-  line-height: 1.6;
+    line-height: 1;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
 }
 
-/* Header */
-.header {
-  background: #111;
-  color: white;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px 30px;
+ol, ul {
+    list-style: none;
 }
 
-.logo {
-  font-size: 1.5rem;
-  font-weight: bold;
+h1, h2, h3, h4, h5, h6, a, span, li {
+    font-size: 16px;
+    font-weight: 500;
 }
 
-.nav a {
-  margin-left: 20px;
-  color: white;
-  text-decoration: none;
-  transition: color 0.3s;
+a {
+    text-decoration: unset;
 }
 
-.nav a:hover {
-  color: #00b341;
+b, strong {
+    font-weight: 700;
 }
 
-/* Hero */
-.hero {
-  background: #222;
-  color: white;
-  text-align: center;
-  padding: 60px 20px;
+video, img, picture, source, svg {
+    width: 100%;
+    vertical-align: top;
 }
 
-.hero-title {
-  font-size: 2.5rem;
-  margin-bottom: 15px;
+img, picture, svg {
+    pointer-events: none;
 }
 
-.hero-subtitle {
-  font-size: 1.2rem;
-  margin-bottom: 25px;
+input, textarea {
+    vertical-align: -webkit-baseline-middle;
 }
 
-.btn-primary {
-  background: #00b341;
-  border: none;
-  padding: 12px 25px;
-  color: white;
-  font-size: 1rem;
-  cursor: pointer;
-  border-radius: 4px;
-  transition: background 0.3s;
+textarea {
+    resize: none;
 }
 
-.btn-primary:hover {
-  background: #009431;
+blockquote, q {
+    quotes: none;
 }
 
-/* Catálogo */
-.catalogo {
-  padding: 40px 20px;
+blockquote:before, blockquote:after, q:before, q:after {
+    content: '';
+    content: none;
 }
 
-.section-title {
-  text-align: center;
-  font-size: 2rem;
-  margin-bottom: 30px;
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
 }
 
-.filtros {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin-bottom: 30px;
+/* Initial Set-up */
+*, *:before, *:after {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
-.btn-filter {
-  border: 1px solid #00b341;
-  background: white;
-  padding: 8px 15px;
-  cursor: pointer;
-  border-radius: 4px;
-  transition: all 0.3s;
+#app, #root, #__nuxt, #__next, .app {
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -webkit-tap-highlight-color: transparent;
+    isolation: isolate;
 }
 
-.btn-filter.active,
-.btn-filter:hover {
-  background: #00b341;
-  color: white;
+[nll_clamp] {
+    width: 100%;
+    max-width: 125px;
+    display: -webkit-box;
+    box-orient: vertical;
+    -webkit-box-orient: vertical;
+    line-clamp: 1;
+    -webkit-line-clamp: 1;
+    word-break: break-all;
+    overflow: clip;
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 20px;
+/* _INPUTS-STYLE */
+label, legend {
+    width: fit-content;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.005lh;
+    text-box-trim: trim-both;
 }
 
-.card {
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  transition: transform 0.2s;
+input,
+textarea {
+    outline: none;
+    border: 1px solid var(--input_outline);
+    background-color: var(--input_bg);
+    transition: all 120ms ease-in-out;
+    padding: 0.5rem 0.875rem;
+    border-radius: 0.25rem;
+    font-size: 1rem;
+    line-height: 1rem;
+    font-family: inherit;
+    font-weight: 400;
+    color: unset;
+    cursor: default;
+
+    &::placeholder {
+        user-select: none;
+        color: color-mix(in srgb, var(--input_bg) 42%, currentColor 58%)
+    }
+
+    &:focus-visible {
+        border: 1px solid var(--input_focus);
+        background-color: var(--input_focus-bg);
+        box-shadow: 0px 0px 0px 2.5px var(--input_focus-outline);
+        transition: all 240ms ease-in-out;
+    }
+
+    &:disabled {
+        background-color: var(--input_disabled-bg);
+        cursor: default;
+        color: color-mix(in srgb, var(--input_bg) 58%, currentColor 42%);
+    }
+
+    &.error {
+        border: 1px solid var(--input_invalid);
+        background-color: var(--input_invalid-bg);
+        box-shadow: 0px 0px 0px 2.5px var(--input_invalid-outline);
+        transition: all 240ms ease-in-out;
+
+        &::placeholder {
+            color: color-mix(in srgb, var(--input_focus-bg) 36%, var(--input_invalid) 64%);
+            transition: color 240ms cubic-bezier(0.06, 0.06, 0, 1);
+        }
+    }
 }
 
-.card:hover {
-  transform: translateY(-5px);
+input[type="checkbox"] {
+    all: unset;
+    display: inline-block;
+    vertical-align: top;
+    width: 1.125rem;
+    height: 1.125rem;
+    outline: none;
+    border: 1px solid var(--input_outline);
+    background-color: var(--input_bg);
+    transition: all 120ms ease-in-out;
+    border-radius: 4px;
+    cursor: pointer;
+
+    &:focus-visible {
+        border: 1px solid var(--input_focus);
+        background-color: var(--input_focus-bg);
+        box-shadow: 0px 0px 0px 2.5px var(--input_focus-outline);
+        transition: all 240ms ease-in-out;
+    }
+
+    &:disabled {
+        background-color: var(--input_disabled-bg);
+        cursor: default;
+    }
+
+    &:checked {
+        background-color: var(--input_focus);
+        border-color: var(--input_focus);
+        position: relative;
+
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background: url(/_assets/tick-square.svg) center no-repeat;
+        }
+    }
 }
 
-.card-img {
-  width: 100%;
-  height: 180px;
-  object-fit: cover;
+.btn {
+    /* PARA MODIFICAR EL COL_BASE SOLO AGREGAR LA VARIABLE LUEGO EN EL BOTON A MODIFICAR*/
+    border: none;
+    background-color: var(--input_focus);
+    width: fit-content;
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: 0.005lh;
+    color: currentColor;
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    transition: all 480ms cubic-bezier(0.06, 0, 0, 1);
+
+    &:hover {
+        background-color: color-mix(in srgb, oklch(0.14 0 0) 18%, var(--input_focus) 82%);
+    }
 }
 
-.card-content {
-  padding: 15px;
+.\:secondary {
+    border: 1px solid var(--input_focus);
+    background-color: transparent !important;
+    color: var(--label-color);
+    transition: all 480ms cubic-bezier(0.06, 0, 0, 1);
+    position: relative;
+    overflow: clip;
+
+    &:hover {
+        box-shadow: 0px 0px 0px 2.5px var(--input_focus-outline);
+
+        &::before {
+            width: 100%;
+        }
+    }
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 0%;
+        background-color: var(--input_focus);
+        transition: width 480ms cubic-bezier(0.06, 0, 0, 1);
+        z-index: -1;
+    }
 }
 
-.card-title {
-  font-size: 1.2rem;
-  font-weight: bold;
-  margin-bottom: 8px;
-}
-
-.card-category {
-  color: #666;
-  font-size: 0.9rem;
-  margin-bottom: 8px;
-}
-
-.card-price {
-  font-weight: bold;
-  color: #00b341;
-  margin-bottom: 12px;
-}
-
-.btn-secondary {
-  background: #111;
-  color: white;
-  border: none;
-  padding: 10px;
-  width: 100%;
-  cursor: pointer;
-  border-radius: 4px;
-  transition: background 0.3s;
-}
-
-.btn-secondary:hover {
-  background: #333;
-}
-
-/* Footer */
-.footer {
-  background: #111;
-  color: white;
-  text-align: center;
-  padding: 20px;
-}
-
-.footer-icons {
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-  margin-top: 10px;
-}
-
-/* WhatsApp */
-.whatsapp-btn {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background: #25d366;
-  color: white;
-  font-size: 1.5rem;
-  padding: 15px;
-  border-radius: 50%;
-  text-decoration: none;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-  transition: background 0.3s;
-}
-
-.whatsapp-btn:hover {
-  background: #1ebe5d;
+.error__message {
+    width: fit-content;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.005lh;
+    text-box-trim: trim-both;
+    color: var(--input_invalid);
+    margin-block-start: 0.375rem;
 }
