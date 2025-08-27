@@ -116,6 +116,7 @@ const Carrusel: React.FC<CarruselProps> = ({ intervalo = 5000 }) => {
       iniciarAutoPlay();
       return () => detenerAutoPlay();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [diapositivas]);
 
   // Si no hay diapositivas cargadas aún mostramos un loader
@@ -132,7 +133,15 @@ const Carrusel: React.FC<CarruselProps> = ({ intervalo = 5000 }) => {
           <p>{diapositivaActual.texto1}</p>
           <p>{diapositivaActual.texto2}</p>
           <h1>{diapositivaActual.titulo}</h1>
-          <button data-btn="cotizar">{diapositivaActual.textoBoton}</button>
+          <button className="btn" data-btn="cotizar">{diapositivaActual.textoBoton}lorem ipsum
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+					  	<g className="artboard">
+							  <rect width="28" height="6" fill="currentColor" />
+							  <rect x="22" y="28" width="28" height="6" transform="rotate(-90 22 28)" fill="currentColor" />
+							  <path d="M0 23.5L23.5 -6.70769e-07L28 4.5L4.5 28L0 23.5Z" fill="currentColor" />
+					  	</g>
+					  </svg>
+          </button>
         </div>
 
         <div className="header_nav-wrapper">
@@ -140,7 +149,13 @@ const Carrusel: React.FC<CarruselProps> = ({ intervalo = 5000 }) => {
             className="carrousel_arrow carrousel_arrow-left"
             onClick={anteriorDiapositiva}
           >
-            ◀
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+					  	<g className="artboard">
+					  		<path
+								  d="M1.83627 11.1429L12.122 0.857143C12.5954 0.383756 13.3629 0.383756 13.8363 0.857143L14.6934 1.71429C15.1668 2.18767 15.1668 2.95518 14.6934 3.42857L8.05055 10.0714L21.8384 10.0714C22.5078 10.0714 23.0506 10.6141 23.0506 11.2836L23.0506 12.7164C23.0506 13.3859 22.5078 13.9286 21.8384 13.9286L8.05056 13.9286L14.6934 20.5714C15.1668 21.0448 15.1668 21.8123 14.6934 22.2857L13.8363 23.1429C13.3629 23.6162 12.5954 23.6162 12.122 23.1429L2.69341 13.7143L1.83627 12.8571C1.36288 12.3838 1.36288 11.6162 1.83627 11.1429Z"
+					  			fill="currentColor" />
+					  	</g>
+					  </svg>
           </div>
 
           <ul>
@@ -175,7 +190,13 @@ const Carrusel: React.FC<CarruselProps> = ({ intervalo = 5000 }) => {
             className="carrousel_arrow carrousel_arrow-right"
             onClick={siguienteDiapositiva}
           >
-            ▶
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+					  	<g className="artboard">
+					  		<path
+								  d="M24.122 11.1429L13.8363 0.857143C13.3629 0.383756 12.5954 0.383756 12.122 0.857143L11.2648 1.71429C10.7915 2.18767 10.7915 2.95518 11.2648 3.42857L17.9077 10.0714L4.11988 10.0714C3.45041 10.0714 2.9077 10.6141 2.9077 11.2836L2.9077 12.7164C2.9077 13.3859 3.45041 13.9286 4.11988 13.9286L17.9077 13.9286L11.2648 20.5714C10.7915 21.0448 10.7915 21.8123 11.2648 22.2857L12.122 23.1429C12.5954 23.6162 13.3629 23.6162 13.8363 23.1429L23.2648 13.7143L24.122 12.8571C24.5954 12.3838 24.5954 11.6162 24.122 11.1429Z"
+					  			fill="currentColor" />
+					  	</g>
+					  </svg>
           </div>
         </div>
       </div>
