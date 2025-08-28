@@ -1,0 +1,171 @@
+:root {
+    --Nll_Mid-black: #66656B;
+    --Nll_Mid-white: #CFCED6;
+    --Nll_Red-blood: #E53225;
+    --Nll_Blue-gum: #0054E5;
+    --Nll_Green-leaf: #48E520;
+
+    --columns: 4;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(var(--columns), 1fr);
+}
+
+article {
+    margin: 0 1rem 2rem;
+    height: fit-content;
+    position: relative;
+
+    [data-product-top] {
+        width: 100%;
+        height: 100%;
+        aspect-ratio: 16 / 9;
+        margin-block-end: 0.75rem;
+        border-radius: 0.313rem;
+        position: relative;
+        overflow: clip;
+
+        [data-product-badge] {
+            width: fit-content;
+            position: absolute;
+            bottom: 0; left: 0;
+            z-index: 12;
+            padding: 0.5rem 1rem;
+            border-top-right-radius: 0.313rem;
+            color: var(--Nll_White-col);
+            background-color: var(--Nll_Mid-black);
+            .badge-container {
+                font-size: 1rem;
+                font-family: "Satoshi";
+                font-weight: 600;
+                letter-spacing: 0.005lh;
+                text-box-trim: trim-both;
+            }
+        }
+
+        [data-product-model] {
+            width: fit-content;
+            position: absolute;
+            top: 0.5rem; right: 0.5rem;
+            z-index: 12;
+            [data-model], span {
+                display: block;
+                text-align: right;
+                font-size: 0.75rem;
+                font-family: "Satoshi";
+                font-weight: 700;
+                letter-spacing: 0.008lh;
+                color: var(--Nll_White-col);
+                text-box-trim: trim-both;
+            }
+                span {
+                font-size: 0.75rem;
+                font-weight: 400;
+                color: var(--Nll_Mid-white);
+            }
+        }
+
+        [data-product-badge="new"] { color: var(--Nll_Black-col); background-color: var(--Nll_Green-leaf); }
+        [data-product-badge="discount"] { color: var(--Nll_White-col); background-color: var(--Nll_Blue-gum); }
+        [data-product-badge="sold-out"] { color: var(--Nll_White-col); background-color: var(--Nll_Red-blood); }
+
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            right: 0; bottom: 0;
+            background-color: color-mix(in srgb, var(--Nll_Black-col) 25%, transparent 75%);
+        }
+    }
+
+    &:hover [data-product-top] img {
+        scale: 1.12;
+    }
+
+    [data-product-info] h2 {
+        color: var(--Nll_Black-col);
+        font-size: 1rem;
+        font-family: "Satoshi";
+        font-weight: 400;
+        letter-spacing: 0.005lh;
+        margin-block-end: 0.36lh;
+        text-box-trim: trim-both;
+    }
+
+    [data-product-details] {
+        width: 100%;
+        display: inline-grid;
+        grid-auto-flow: column;
+        align-items: center;
+        justify-content: space-between;
+        [data-product-price] {
+            width: fit-content;
+            display: inline-grid;
+            grid-auto-flow: column;
+            align-items: baseline;
+            gap: 0.25rem;
+        }
+
+        [data-product-price] {
+            font-size: 1rem;
+            font-family: "Satoshi";
+            font-weight: 600;
+            letter-spacing: 0.005lh;
+            text-box-trim: trim-both;
+            .product-old-price {
+                font-size: 0.75rem;
+                text-decoration: line-through;
+                color: var(--Nll_Mid-black);
+            }
+        }
+
+        button {
+            border: none;
+            background-color: var(--Nll_Black-col);
+            width: fit-content;
+            font-size: 1rem;
+            font-weight: 500;
+            letter-spacing: 0.005lh;
+            color: var(--Nll_White-col);
+            padding: 0.5rem 1rem;
+            border-radius: 0.25rem;
+        }
+    }
+}
+
+a[href] {
+    position: relative;
+    z-index: 0;
+}
+
+.\:nll-clamp {
+    line-clamp: 2;
+    -webkit-line-clamp: 2;
+}
+
+[data-model]::before {
+    content: attr(data-model);
+}
+
+img {
+    width: 100%; height: 100%;
+    position: relative;
+    object-fit: contain;
+    vertical-align: middle;
+    user-select: none;
+    pointer-events: none;
+    transition: all 240ms cubic-bezier(0.06,0.06,0,1);
+    z-index: -12;
+}
+
+[country-code] {
+    font-size: 0.625rem;
+    font-family: "Satoshi";
+    letter-spacing: 0.005lh;
+    text-box-trim: trim-both;
+    &::after {
+        content: attr(country-code);
+    }
+}

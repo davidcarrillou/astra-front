@@ -111,7 +111,7 @@ const Carrusel: React.FC<CarruselProps> = ({ intervalo = 5000 }) => {
 
   // Si no hay datos cargados aún mostramos un loader
   if (listadatosCarrusel.length === 0) {
-    return <p>Cargando carrusel...</p>;
+    return <div className="skeleton__carrousel :shine"></div>
   }
 
   const dataCarrusel = listadatosCarrusel[indiceActual];

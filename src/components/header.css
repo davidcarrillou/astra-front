@@ -8,6 +8,7 @@ header {
     align-items: center;
     position: sticky;
     top: 0; left: 0;
+    background-color: var(--Nll_White-col);
     z-index: 999;
 }
 
