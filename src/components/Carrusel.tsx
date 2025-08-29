@@ -2,15 +2,15 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import "./carrusel.css";
-import type { CarruselData } from "@/types";
-import {supabase} from "../supabaseClient"; // Asegúrate de tener este archivo configurado
+import type { carruselData } from "@/types";
+import {supabase} from "../supabaseClient";
 
 type CarruselProps = {
   intervalo?: number;
 };
 
 const Carrusel: React.FC<CarruselProps> = ({ intervalo = 5000 }) => {
-  const [listadatosCarrusel, setDatosCarrusel] = useState<CarruselData[]>([]);
+  const [listadatosCarrusel, setDatosCarrusel] = useState<carruselData[]>([]);
   const [indiceActual, setIndiceActual] = useState(0);
   const [progreso, setProgreso] = useState(62.8);
   const intervaloRef = useRef<ReturnType<typeof setInterval> | null>(null);

@@ -1,11 +1,13 @@
-export type CardsData = {
-  id: number;
-  title: string;
-  model: string;
-  badge_type: string | null;
-  badge_value: string | null;
-  og_price: number;
-  old_price: number | null;
+export type cardData = {
+  id_card: number;
+  titulo: string;
+  modelo: string;
+  tipo_insignia: string | null;
+  valor_insignia: string | null;
+  precio_original: number;
+  precio_anterior: number | null;
   url_imagen: string | null;
-  date: string;
+  fecha: string;
+  activo: boolean;
+  fecha_creacion: string | null;
 };
