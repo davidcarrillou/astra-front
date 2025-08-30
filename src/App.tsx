@@ -1,23 +1,35 @@
-
-import "./App.css"; // Archivo CSS clásico
+import "./App.css";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Encabezado from "./components/header";
 import Carrusel from "./components/Carrusel";
-import Cards from "./components/cards";
+import { Productos } from "./pages/productos";
+
 
 export default function App() {
   return (
-  <div>
-    <Encabezado />
-    <main>
-      <Carrusel />
-      <div className="contents">  {/* COLOCAR AQUI TODAS LAS SECCIONES QUE SE REQUIERAN */}
-        <section className="top_products">
-          <h2>Productos</h2>
-          <Cards />
-        </section>
-      </div>
-    </main>
-    {/* FOOTER DE LA PAGINA */}
-  </div>
+    <Router>
+      <Encabezado /> {/* siempre se muestra */}
+      <main>
+        <Routes>
+          {/* Página principal */}
+          <Route
+            path="/"
+            element={
+              <>
+                <Carrusel />
+                <div className="contents">
+                  <section className="top_products">
+                    <Productos />
+                  </section>
+                </div>
+              </>
+            }
+          />
+
+          {/* Página de productos */}
+          <Route path="/products" element={<Productos />} />
+        </Routes>
+      </main>
+    </Router>
   );
 }

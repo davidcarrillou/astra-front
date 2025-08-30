@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "./header.css";
 
 const Encabezado: React.FC = () => {
@@ -28,21 +29,9 @@ const Encabezado: React.FC = () => {
       </a>
       <div className="Nll_nav-cont">
         <div className="Nll_Nav">
-          <a
-            href="/"
-            data-nav="menu"
-            title="Inicio"
-          >Inicio</a>
-          <a
-            href="/products"
-            data-nav="menu"
-            title="Productos"
-          >Productos</a>
-          <a
-            href="/contact"
-            data-nav="menu"
-            title="Contacto"
-          >Contacto</a>
+          <Link to="/" data-nav="menu" title="Inicio">Inicio</Link>
+          <Link to="/products" data-nav="menu" title="Productos">Productos</Link>
+          <Link to="/contact" data-nav="menu" title="Contacto">Contacto</Link>
         </div>
         <div className="Nll_cart">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
