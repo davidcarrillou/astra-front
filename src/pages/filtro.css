@@ -1,225 +1,208 @@
-/* Mobile Filter Styles */
-.mobile-filter {
-  background-color: white;
-}
-
-.filter-header {
+.filtro-container {
+  background-color: #ffffff;
   padding: 16px;
-  border-bottom: 1px solid #e5e7eb;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  max-width: 400px;
+  margin: 0 auto;
 }
 
-.view-page-section {
+.vista-pagina {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: 12px;
-}
-
-.view-page-label {
+  margin-bottom: 16px;
   font-size: 14px;
-  color: #6b7280;
+  color: #666;
 }
 
-.grid-button {
-  width: 32px;
-  height: 32px;
+.icono-grid {
+  width: 20px;
+  height: 20px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
-  background-color: transparent;
-  cursor: pointer;
 }
 
-.sort-section {
-  margin-bottom: 16px;
+.ordenar-seccion {
+  margin-bottom: 20px;
 }
 
-.sort-label {
+.ordenar-label {
   font-size: 14px;
-  color: #6b7280;
+  color: #333;
+  margin-bottom: 8px;
   display: block;
+}
+
+.ordenar-select {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  background-color: white;
+}
+
+.productos-info {
+  margin-bottom: 20px;
+}
+
+.productos-titulo {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
   margin-bottom: 4px;
 }
 
-.sort-select-wrapper {
-  position: relative;
-}
-
-.sort-select {
-  width: 100%;
-  padding: 8px 32px 8px 12px;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
+.productos-categoria {
   font-size: 14px;
-  background-color: white;
-  appearance: none;
-  cursor: pointer;
+  color: #666;
 }
 
-.sort-select-arrow {
-  position: absolute;
-  right: 8px;
-  top: 50%;
-  transform: translateY(-50%);
-  pointer-events: none;
+.filtros-titulo {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 16px;
 }
 
-.products-summary {
-  background-color: #eff6ff;
-  padding: 12px;
-  border-radius: 6px;
+.filtro-seccion {
+  margin-bottom: 16px;
+  border-bottom: 1px solid #f0f0f0;
+  padding-bottom: 16px;
 }
 
-.products-title {
-  font-weight: 500;
-  color: #111827;
-  margin: 0 0 4px 0;
-  font-size: 14px;
-}
-
-.products-count {
-  color: #2563eb;
-  font-size: 14px;
-  margin: 0;
-}
-
-.filter-sections-header {
-  padding: 16px;
-  background-color: #f9fafb;
-}
-
-.filter-sections-title {
-  font-weight: 500;
-  color: #111827;
-  margin: 0;
-  font-size: 14px;
-}
-
-.filter-section {
-  border-bottom: 1px solid #e5e7eb;
-}
-
-.filter-section-button {
-  width: 100%;
+.filtro-header {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  padding: 12px 16px;
-  text-align: left;
-  background-color: transparent;
-  border: none;
+  align-items: center;
   cursor: pointer;
+  padding: 8px 0;
+}
+
+.filtro-nombre {
   font-size: 14px;
+  color: #0066cc;
   font-weight: 500;
-  color: #2563eb;
-  transition: background-color 0.2s;
 }
 
-.filter-section-button:hover {
-  background-color: #f9fafb;
-}
-
-.filter-section-content {
-  padding: 0 16px 16px 16px;
-}
-
-.filter-options-scrollable {
-  max-height: 192px;
-  overflow-y: auto;
-}
-
-.filter-option {
+.filtro-toggle {
+  width: 20px;
+  height: 20px;
+  border: 1px solid #0066cc;
+  border-radius: 50%;
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: 14px;
-  margin-bottom: 8px;
-  cursor: pointer;
-}
-
-.filter-checkbox {
-  width: 16px;
-  height: 16px;
-  border-radius: 4px;
-  border: 1px solid #d1d5db;
-}
-
-.filter-option-count {
-  color: #6b7280;
-}
-
-.price-inputs-section {
-  display: flex;
-  gap: 8px;
-  align-items: end;
-  padding-top: 8px;
-}
-
-.price-input-group {
-  flex: 1;
-}
-
-.price-input-label {
+  justify-content: center;
+  background-color: white;
+  color: #0066cc;
   font-size: 12px;
-  color: #6b7280;
-  display: block;
+  font-weight: bold;
 }
 
-.price-input {
-  width: 100%;
-  height: 32px;
-  padding: 4px 8px;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
-  font-size: 14px;
+.filtro-contenido {
+  margin-top: 12px;
 }
 
-.price-apply-button {
-  height: 32px;
-  padding: 0 12px;
-  background-color: #111827;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  font-size: 14px;
-  cursor: pointer;
+.filtro-contenido.oculto {
+  display: none;
 }
 
-.color-swatches {
+.colores-grid {
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
   margin-bottom: 12px;
 }
 
-.color-swatch {
-  width: 32px;
-  height: 32px;
+.color-muestra {
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
+  border: 2px solid transparent;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: border-color 0.2s;
 }
 
-.color-swatch.selected {
-  border: 2px solid #2563eb;
-  box-shadow: 0 0 0 2px #dbeafe;
+.color-muestra.seleccionado {
+  border-color: #0066cc;
+  box-shadow: 0 0 0 2px rgba(0, 102, 204, 0.2);
 }
 
-.color-swatch.unselected {
-  border: 2px solid #d1d5db;
-}
-
-.color-swatch.white-unselected {
-  border: 2px solid #9ca3af;
-}
-
-.show-more-button {
-  color: #2563eb;
+.mostrar-mas {
+  color: #0066cc;
   font-size: 14px;
-  background-color: transparent;
-  border: none;
+  text-decoration: none;
   cursor: pointer;
+}
+
+.mostrar-mas:hover {
   text-decoration: underline;
+}
+
+.opciones-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.opcion-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0;
+}
+
+.opcion-checkbox {
+  width: 16px;
+  height: 16px;
+}
+
+.opcion-label {
+  font-size: 14px;
+  color: #333;
+  cursor: pointer;
+  flex: 1;
+}
+
+.opcion-cantidad {
+  font-size: 12px;
+  color: #666;
+}
+
+.precio-inputs {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.precio-input {
+  flex: 1;
+  padding: 6px 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.precio-separador {
+  color: #666;
+  font-size: 14px;
+}
+
+.loading {
+  color: #666;
+  font-style: italic;
+  font-size: 14px;
+}
+
+.error {
+  color: #dc2626;
+  font-size: 14px;
+  padding: 8px;
+  background-color: #fef2f2;
+  border-radius: 4px;
+  border: 1px solid #fecaca;
 }

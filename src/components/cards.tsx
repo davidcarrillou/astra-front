@@ -1,53 +1,47 @@
 import React from "react";
 import "./cards.css";
-import type { cardData } from "@/types";
-interface CardsProps {
-  cards: cardData[];
+import type { itemCatalogo } from "@/types";
+interface itemProductoProps {
+  itemProducto: itemCatalogo[];
 }
 
-/**
- * Componente Cards
- * ----------------
- * - Recibe un array de cards por props
- * - Renderiza cada tarjeta con título, modelo, imagen, precios y botón
- * - Totalmente desacoplado de la BD
- */
-const Cards: React.FC<CardsProps> = ({ cards }) => {
-  if (!cards || cards.length === 0) {
+
+const Cards: React.FC<itemProductoProps> = ({ itemProducto }) => {
+  if (!itemProducto || itemProducto.length === 0) {
     return <p>No hay productos disponibles.</p>;
   }
 
   return (
     <div className="cards">
-      {cards.map((card) => (
-        <article key={card.id_card}>
+      {itemProducto.map((item) => (
+        <article key={item.id_catalogo}>
           <a href="#">
             {/* Contenedor superior */}
             <div
               data-product-top
-              title={`${card.titulo} - ${card.modelo}`}
-              aria-description={`${card.titulo} - ${card.modelo}`}
+              title={`${item.nombre_producto} - ${item.modelo}`}
+              aria-description={`${item.nombre_producto} - ${item.modelo}`}
             >
               {/* Badge dinámico */}
-              {card.tipo_insignia && card.valor_insignia && (
-                <div data-product-badge={card.tipo_insignia}>
+              {item.estado  && (
+                <div data-product-badge={item.estado}>
                   <div className="badge-container">
-                    <span>{card.valor_insignia}</span>
+                    <span>{item.estado}</span>
                   </div>
                 </div>
               )}
 
               {/* Modelo */}
               <div data-product-model>
-                <strong data-model={card.titulo} aria-label={card.titulo} />
-                <span>{card.modelo}</span>
+                <strong data-model={item.nombre_producto} aria-label={item.nombre_producto} />
+                <span>{item.modelo}</span>
               </div>
 
               {/* Imagen */}
-              {card.url_imagen && (
+              {item.url_imagen && (
                 <img
-                  src={card.url_imagen}
-                  alt={card.titulo}
+                  src={item.url_imagen?.[0] || "/img/default-product.jpg"}
+                  alt={item.nombre_producto}
                   loading="lazy"
                 />
               )}
@@ -55,23 +49,25 @@ const Cards: React.FC<CardsProps> = ({ cards }) => {
 
             {/* Contenedor inferior */}
             <div data-product-info>
-              <h2 title={card.titulo} className=":nll-clamp">
-                {card.titulo}
+              <h2 title={item.nombre_producto} className=":nll-clamp">
+                {item.nombre_producto}
               </h2>
 
               <div data-product-details>
                 <div data-product-price>
                   <div className="product-og-price">
-                    <span>${card.precio_original}</span>
+                    <span>
+                      ${calcularPrecioFinal(item.precio, item.descuento)}
+                    </span>
                   </div>
-
-                  {card.precio_anterior && (
+                  {item.descuento && (
                     <div className="product-old-price">
-                      <span>${card.precio_anterior}</span>
+                      <span className="tachado">
+                        ${item.precio}
+                      </span>
                     </div>
                   )}
                 </div>
-
                 <button type="button" tabIndex={-1}>
                   Agregar al carrito
                 </button>
@@ -85,3 +81,11 @@ const Cards: React.FC<CardsProps> = ({ cards }) => {
 };
 
 export default Cards;
+
+
+const calcularPrecioFinal = (precio: number, descuento: string | null): number => {
+  if (!descuento) return precio;
+  const match = descuento.match(/\((\d+(\.\d+)?)%\)/);
+  const porcentaje = match ? parseFloat(match[1]) : 0;
+  return +(precio - (precio * porcentaje / 100)).toFixed(2);
+};

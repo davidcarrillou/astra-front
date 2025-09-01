@@ -18,9 +18,7 @@ export default function App() {
               <>
                 <Carrusel />
                 <div className="contents">
-                  <section className="top_products">
-                    <Productos />
-                  </section>
+                  
                 </div>
               </>
             }

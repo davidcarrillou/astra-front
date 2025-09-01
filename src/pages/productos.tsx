@@ -2,68 +2,116 @@
 
 import { useEffect, useState, useCallback } from "react"
 import "./productos.css"
-import { Filtro } from "./filtro"
+import Filtro from "./filtro"
+import {CardItem} from "@/components/CardItem"
+import { supabase } from "@/supabaseClient"
+import type { itemCatalogo, EstadoFiltros } from "@/types"
 
-interface DatosProducto {
-  id: number
-  titulo: string
-  precio: number
-  marca: string
-  color: string
-  memoria: string
-  ram: string
-  destacado: boolean
-  nuevo: boolean
-  activo: boolean
-}
-
-interface EstadoFiltros {
-  marcas: string[]
-  rangosPrecio: string[]
-  precioMinimo: string
-  precioMaximo: string
-  destacados: string[]
-  colores: string[]
-  almacenamiento: string[]
-  ram: string[]
-  accesibilidad: string[]
-  ordenarPor: string
-}
-
-const productosMock: DatosProducto[] = [
-  {
-    id: 1,
-    titulo: "iPhone 15 Pro",
-    precio: 25000,
-    marca: "APPLE",
-    color: "#000000",
-    memoria: "256 GB",
-    ram: "8 GB",
-    destacado: true,
-    nuevo: true,
-    activo: true,
-  },
-  {
-    id: 2,
-    titulo: "Samsung Galaxy S24",
-    precio: 18000,
-    marca: "SAMSUNG",
-    color: "#3B82F6",
-    memoria: "128 GB",
-    ram: "12 GB",
-    destacado: false,
-    nuevo: false,
-    activo: true,
-  },
-  // Agregar más productos mock según sea necesario
-]
 
 export function Productos() {
+  const productosFallback: itemCatalogo[] = [
+    {
+        id_catalogo: 1,
+        nombre_producto: "iPhone 15 Pro",
+        modelo: "Apple",
+        precio: 1199.99,
+        descuento: "null",
+        url_imagen: ["/iphone-15-pro-hands.png"],
+        estado: "Nuevo",
+        color: "Negro",
+        memoria: "256GB",
+        ram: "8GB",
+        activo: false,
+        categoria: "",
+        descripcion: "",
+        fecha_creacion: ""
+    },
+    {
+        id_catalogo: 2,
+        nombre_producto: "Samsung Galaxy S24",
+        modelo: "Samsung",
+        precio: 899.99,
+        descuento: "10%",
+        url_imagen: ["/samsung-galaxy-s24.png"],
+        estado: "Nuevo",
+        color: "Azul",
+        memoria: "128GB",
+        ram: "8GB",
+        activo: false,
+        categoria: "",
+        descripcion: "",
+        fecha_creacion: ""
+    },
+    {
+        id_catalogo: 3,
+        nombre_producto: "Xiaomi Mi 13",
+        modelo: "Xiaomi",
+        precio: 599.99,
+        descuento: "null",
+        url_imagen: ["/xiaomi-mi-13.png"],
+        estado: "Nuevo",
+        color: "Verde",
+        memoria: "256GB",
+        ram: "12GB",
+        activo: false,
+        categoria: "",
+        descripcion: "",
+        fecha_creacion: ""
+    },
+    {
+        id_catalogo: 4,
+        nombre_producto: "iPhone 14",
+        modelo: "Apple",
+        precio: 999.99,
+        descuento: "15%",
+        url_imagen: ["/iphone-14-on-desk.png"],
+        estado: "Reacondicionado",
+        color: "Blanco",
+        memoria: "128GB",
+        ram: "6GB",
+        activo: false,
+        categoria: "",
+        descripcion: "",
+        fecha_creacion: ""
+    },
+    {
+        id_catalogo: 5,
+        nombre_producto: "OnePlus 11",
+        modelo: "OnePlus",
+        precio: 699.99,
+        descuento: "20%",
+        url_imagen: ["/oneplus-11.png"],
+        estado: "Nuevo",
+        color: "Verde",
+        memoria: "256GB",
+        ram: "16GB",
+        activo: false,
+        categoria: "",
+        descripcion: "",
+        fecha_creacion: ""
+    },
+    {
+        id_catalogo: 6,
+        nombre_producto: "Google Pixel 8",
+        modelo: "Google",
+        precio: 699.99,
+        descuento: "null",
+        url_imagen: ["/google-pixel-8.png"],
+        estado: "Nuevo",
+        color: "Gris Oscuro",
+        memoria: "128GB",
+        ram: "8GB",
+        activo: false,
+        categoria: "",
+        descripcion: "",
+        fecha_creacion: ""
+    },
+  ]
+
   const [busqueda, setBusqueda] = useState("")
   const [paginaActual, setPaginaActual] = useState(1)
-  const [datosProductos, setDatosProductos] = useState<DatosProducto[]>(productosMock)
-  const [productosFiltrados, setProductosFiltrados] = useState<DatosProducto[]>(productosMock)
-  const [cargando, setCargando] = useState(false)
+  const [datosProductos, setDatosProductos] = useState<itemCatalogo[]>(productosFallback)
+  const [productosFiltrados, setProductosFiltrados] = useState<itemCatalogo[]>(productosFallback)
   const [filtrosActuales, setFiltrosActuales] = useState<EstadoFiltros>({
     marcas: [],
     rangosPrecio: [],
@@ -79,78 +127,98 @@ export function Productos() {
 
   const productosPorPagina = 10
 
-  const aplicarFiltros = useCallback((productos: DatosProducto[], filtros: EstadoFiltros, terminoBusqueda: string) => {
-    let filtrados = productos.filter((producto) =>
-      producto.titulo.toLowerCase().includes(terminoBusqueda.toLowerCase()),
-    )
+  useEffect(() => {
+    const fetchProductos = async () => {
+      try {
+        const { data, error } = await supabase.from("vista_catalogo").select("*")
+        console.log(data)
 
-    // Filtro de marca
-    if (filtros.marcas.length > 0) {
-      filtrados = filtrados.filter((producto) => filtros.marcas.includes(producto.marca))
+        if (!error && data && data.length > 0) {
+          setDatosProductos(data)
+        } else {
+          console.log("Using fallback product data - Supabase table not found")
+          // Keep using fallback data
+        }
+      } catch (error) {
+        console.log("Using fallback product data - Supabase connection issue:", error)
+        // Keep using fallback data
+      }
     }
 
-    // Filtro de rango de precio
+    fetchProductos()
+  }, [supabase])
+
+  const aplicarFiltros = useCallback((productos: itemCatalogo[], filtros: EstadoFiltros, terminoBusqueda: string) => {
+    let filtrados = productos.filter((producto) =>
+      (producto.nombre_producto ?? "").toLowerCase().includes(terminoBusqueda.toLowerCase()),
+    )
+
+    if (filtros.marcas.length > 0) {
+      filtrados = filtrados.filter((producto) => producto.modelo !== null && filtros.marcas.includes(producto.modelo))
+    }
+
     if (filtros.rangosPrecio.length > 0) {
-      filtrados = filtrados.filter((producto) => {
-        return filtros.rangosPrecio.some((rango) => {
+      filtrados = filtrados.filter((producto) =>
+        filtros.rangosPrecio.some((rango) => {
+          const precio = producto.precio ?? 0
           switch (rango) {
             case "MENOS DE $1,499":
-              return producto.precio < 1499
+              return precio < 1499
             case "$1,500 A $5,499":
-              return producto.precio >= 1500 && producto.precio <= 5499
+              return precio >= 1500 && precio <= 5499
             case "$5,500 A $10,499":
-              return producto.precio >= 5500 && producto.precio <= 10499
+              return precio >= 5500 && precio <= 10499
             case "$10,500 A $16,499":
-              return producto.precio >= 10500 && producto.precio <= 16499
+              return precio >= 10500 && precio <= 16499
             case "MÁS DE $16,500":
-              return producto.precio > 16500
+              return precio > 16500
             default:
               return true
           }
-        })
-      })
+        }),
+      )
     }
 
-    // Filtro de precio mínimo/máximo
     if (filtros.precioMinimo) {
-      filtrados = filtrados.filter((producto) => producto.precio >= Number.parseFloat(filtros.precioMinimo))
-    }
-    if (filtros.precioMaximo) {
-      filtrados = filtrados.filter((producto) => producto.precio <= Number.parseFloat(filtros.precioMaximo))
+      filtrados = filtrados.filter((producto) => (producto.precio ?? 0) >= Number.parseFloat(filtros.precioMinimo))
     }
 
-    // Filtro de destacados
+    if (filtros.precioMaximo) {
+      filtrados = filtrados.filter((producto) => (producto.precio ?? 0) <= Number.parseFloat(filtros.precioMaximo))
+    }
+
     if (filtros.destacados.length > 0) {
       filtrados = filtrados.filter((producto) => {
-        if (filtros.destacados.includes("NUEVOS") && producto.nuevo) return true
-        if (filtros.destacados.includes("EN PROMOCIÓN") && producto.destacado) return true
+        if (filtros.destacados.includes("NUEVOS") && producto.estado === "Nuevo") return true
+        if (filtros.destacados.includes("EN PROMOCIÓN") && producto.descuento !== null) return true
+        if (filtros.destacados.includes("REACONDICIONADOS") && producto.estado === "Reacondicionado") return true
         return false
       })
     }
 
-    // Filtro de color
     if (filtros.colores.length > 0) {
-      filtrados = filtrados.filter((producto) => filtros.colores.includes(producto.color))
+      filtrados = filtrados.filter((producto) => producto.color !== null && filtros.colores.includes(producto.color))
     }
 
-    // Filtro de almacenamiento
     if (filtros.almacenamiento.length > 0) {
       filtrados = filtrados.filter((producto) => filtros.almacenamiento.includes(producto.memoria))
     }
 
-    // Ordenar productos
+    if (filtros.ram.length > 0) {
+      filtrados = filtrados.filter((producto) => filtros.ram.includes(producto.ram ?? ""))
+    }
+
     switch (filtros.ordenarPor) {
       case "precio-menor":
-        filtrados.sort((a, b) => a.precio - b.precio)
+        filtrados.sort((a, b) => (a.precio ?? 0) - (b.precio ?? 0))
         break
       case "precio-mayor":
-        filtrados.sort((a, b) => b.precio - a.precio)
+        filtrados.sort((a, b) => (b.precio ?? 0) - (a.precio ?? 0))
         break
       case "mas-nuevo":
-        filtrados.sort((a, b) => (b.nuevo ? 1 : 0) - (a.nuevo ? 1 : 0))
+        filtrados.sort((a, b) => (b.estado === "Nuevo" ? 1 : 0) - (a.estado === "Nuevo" ? 1 : 0))
         break
       default:
-        // Relevancia - mantener orden original
         break
     }
 
@@ -160,14 +228,13 @@ export function Productos() {
   useEffect(() => {
     const filtrados = aplicarFiltros(datosProductos, filtrosActuales, busqueda)
     setProductosFiltrados(filtrados)
-    setPaginaActual(1) // Resetear a primera página cuando cambien los filtros
+    setPaginaActual(1)
   }, [datosProductos, filtrosActuales, busqueda, aplicarFiltros])
 
   const manejarCambioFiltros = useCallback((filtros: EstadoFiltros) => {
     setFiltrosActuales(filtros)
   }, [])
 
-  // Lógica de paginación
   const indiceUltimo = paginaActual * productosPorPagina
   const indicePrimero = indiceUltimo - productosPorPagina
   const productosActuales = productosFiltrados.slice(indicePrimero, indiceUltimo)
@@ -175,14 +242,11 @@ export function Productos() {
 
   return (
     <div className="products-container">
-      {/* Barra lateral de filtros */}
       <div className="filter-sidebar">
         <Filtro alCambiarFiltros={manejarCambioFiltros} conteoProductos={productosFiltrados.length} />
       </div>
 
-      {/* Contenido de productos */}
       <div className="products-content">
-        {/* Barra de búsqueda */}
         <div className="search-section">
           <input
             type="text"
@@ -193,35 +257,20 @@ export function Productos() {
           />
         </div>
 
-        {/* Cuadrícula de productos */}
         <div className="products-grid">
           {productosActuales.map((producto) => (
-            <div key={producto.id} className="product-card">
-              <h3 className="product-title">{producto.titulo}</h3>
-              <p className="product-brand">{producto.marca}</p>
-              <p className="product-price">${producto.precio.toLocaleString()}</p>
-              <div className="product-specs">
-                <span>{producto.memoria}</span>
-                <span>•</span>
-                <span>{producto.ram} RAM</span>
-              </div>
-              {(producto.nuevo || producto.destacado) && (
-                <div className="product-badges">
-                  {producto.nuevo && <span className="badge-new">Nuevo</span>}
-                  {producto.destacado && <span className="badge-featured">Promoción</span>}
-                </div>
-              )}
+            <div>
+                <CardItem item={producto} />
             </div>
           ))}
         </div>
 
-        {/* Paginación */}
         {totalPaginas > 1 && (
           <div className="pagination">
             <button
               disabled={paginaActual === 1}
               onClick={() => setPaginaActual(paginaActual - 1)}
-              className={`pagination-button ${paginaActual === 1 ? "" : ""}`}
+              className="pagination-button"
             >
               ←
             </button>
@@ -239,7 +288,7 @@ export function Productos() {
             <button
               disabled={paginaActual === totalPaginas}
               onClick={() => setPaginaActual(paginaActual + 1)}
-              className={`pagination-button ${paginaActual === totalPaginas ? "" : ""}`}
+              className="pagination-button"
             >
               →
             </button>

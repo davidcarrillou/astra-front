@@ -1,15 +1,14 @@
-export type cardData = {
-  id_card: number;
-  titulo: string;
+export type itemProducto = {
+  id_catalogo: number;
+  nombre_producto: string;
   categoria: string | null;
-  modelo: string;
+  descripcion: string | null;
+  modelo: string | null;
   color: string | null;
-  tipo_insignia: string | null;
-  valor_insignia: string | null;
-  precio_original: number;
-  precio_anterior: number | null;
-  url_imagen: string | null;
-  fecha: string;
+  estado: 'Nuevo' | 'Reacondicionado' | 'Usado' | null;
+  descuento: string | null; // Ej: "DESC50 (50%)"
+  precio: number;
   activo: boolean;
-  fecha_creacion: string | null;
+  fecha_creacion: string | null; // ISO timestamp
+  url_imagen: string[]; // Array de URLs
 };
