@@ -1,6 +1,6 @@
 :root {
-    --Nll_Black-col: #09090A;
-    --Nll_White-col: #F6F5FF;
+    --Nll_Black-col: light-dark(#09090A, #F6F5FF);
+    --Nll_White-col: light-dark(#F6F5FF, #09090A);
 	--input_bg: light-dark(oklch(0.99 0 0), oklch(0.21 0 0));
     --input_outline: light-dark(oklch(0.89 0 0), oklch(0.30 0 0));
     --input_disabled-bg: light-dark(color-mix(in srgb, var(--input_bg) 58%, var(--input_outline) 42%), color-mix(in srgb, var(--input_bg) 42%, var(--input_outline) 58%));
@@ -101,7 +101,7 @@ table {
 }
 
 /* _INPUTS-STYLE */
-label, legend {
+label, legend, .\:label {
     width: fit-content;
     font-size: 1rem;
     font-weight: 600;
@@ -195,6 +195,89 @@ input[type="checkbox"] {
             background: url(/_assets/tick-square.svg) center no-repeat;
         }
     }
+}
+
+select, ::picker(select) { /* RESET APPEARANCE SELECTOR FOR CUSTOM CSS */
+	appearance: base-select;
+}
+
+select {
+    display: inline-grid;
+    grid-template-columns: 1fr max-content;
+    justify-content: space-between;
+    align-items: center;
+    outline: none;
+    border: 1px solid var(--input_outline);
+    background-color: var(--input_bg);
+    transition: all 120ms ease-in-out;
+    padding: 0.5rem 0.875rem;
+    border-radius: 0.25rem;
+    font-size: 1rem;
+    line-height: 1rem;
+    font-family: inherit;
+    font-weight: 400;
+    color: unset;
+    cursor: pointer;
+
+    &:open {
+        border: 1px solid var(--input_focus);
+        background-color: var(--input_focus-bg);
+        box-shadow: 0px 0px 0px 2.5px var(--input_focus-outline);
+        transition: all 240ms ease-in-out;
+        &::picker-icon {
+            transform: rotate(180deg);
+        }
+    }
+
+    &:focus-within, &:focus-visible {
+        border: 1px solid var(--input_focus);
+        background-color: var(--input_focus-bg);
+        box-shadow: 0px 0px 0px 2.5px var(--input_focus-outline);
+    }
+
+    &:disabled {
+        background-color: var(--input_disabled-bg);
+        cursor: default;
+        color: color-mix(in srgb, var(--input_bg) 58%, currentColor 42%);
+    }
+
+    &::picker-icon {
+        content: url('data:image/svg+xml;utf8,<svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4.61542 8.31L12 15.6946L19.3847 8.31" stroke="currentColor" stroke-width="4" stroke-linecap="round"/></svg>'); /* ./carret-down.svg */
+        transform: rotate(0deg);
+        transition: transform 240ms ease-in-out;
+        height: 1rem;
+        margin: 0;
+    }
+
+    option {
+        width: 100%;
+        outline: none;
+        display: grid;
+        grid-template-columns: max-content 1fr;
+        padding: 0.5rem 0.875rem;
+        &:hover, &:focus-visible {
+            background-color: color-mix(in srgb, var(--input_bg) 92%, var(--input_focus) 6%);
+        }
+
+        &::checkmark {
+            content: url('data:image/svg+xml;utf8,<svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M17.537 8.31L10.1523 15.6946L6.46002 12.0023" stroke="currentColor" stroke-width="4" stroke-linecap="round"/></svg>'); /* ./tick-square.svg */
+            height: 1rem;
+        }
+    }
+}
+
+::picker(select) {
+    outline: none;
+    border: 1px solid var(--input_outline);
+    background-color: var(--input_bg);
+    border-radius: 0.25rem;
+    font-size: 1rem;
+    line-height: 1rem;
+    font-family: inherit;
+    font-weight: 400;
+    color: unset;
+    cursor: pointer;
+    margin-block-start: 0.375rem;
 }
 
 .btn {

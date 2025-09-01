@@ -66,7 +66,7 @@ export default function FiltroMejorado({ alCambiarFiltros, conteoProductos = 134
 
   const [seccionesExpandidas, setSeccionesExpandidas] = useState<SeccionExpandida>({
     marca: false,
-    precio: false,
+    precio: true,
     destacados: false,
     color: true,
     memoria: false,
@@ -128,11 +128,11 @@ export default function FiltroMejorado({ alCambiarFiltros, conteoProductos = 134
 
   // Datos estáticos para opciones que no cambian frecuentemente
   const rangosPrecios = [
-    { id: "1", nombre: "MENOS DE $1,499", cantidad: 156 },
-    { id: "2", nombre: "$1,500 A $5,499", cantidad: 423 },
-    { id: "3", nombre: "$5,500 A $10,499", cantidad: 387 },
-    { id: "4", nombre: "$10,500 A $16,499", cantidad: 298 },
-    { id: "5", nombre: "MÁS DE $16,500", cantidad: 84 },
+    { id: "1", nombre: "Menos de $1,499", cantidad: 156 },
+    { id: "2", nombre: "$1,500 a $5,499", cantidad: 423 },
+    { id: "3", nombre: "$5,500 a $10,499", cantidad: 387 },
+    { id: "4", nombre: "$10,500 a $16,499", cantidad: 298 },
+    { id: "5", nombre: "Más de $16,500", cantidad: 84 },
   ]
 
   const opcionesMemoria = [
@@ -158,7 +158,7 @@ export default function FiltroMejorado({ alCambiarFiltros, conteoProductos = 134
     }))
   }
 
-  const manejarCambioFiltro = (tipo: keyof EstadoFiltros, valor: any) => {
+  const manejarCambioFiltro = (tipo: keyof EstadoFiltros, valor: unknown) => {
     const nuevosFiltros = { ...filtros, [tipo]: valor }
     setFiltros(nuevosFiltros)
     alCambiarFiltros?.(nuevosFiltros)
@@ -176,21 +176,21 @@ export default function FiltroMejorado({ alCambiarFiltros, conteoProductos = 134
     const opcionesAMostrar = tipo === "marcas" ? marcasDisponibles : opciones
 
     return (
-      <div className="opciones-lista">
+      <div className="filter__items">
         {opcionesAMostrar.map((opcion) => {
           const valoresActuales = filtros[tipo] as string[]
           const arraySeguro = Array.isArray(valoresActuales) ? valoresActuales : []
 
           return (
-            <div key={opcion.id} className="opcion-item">
+            <div key={opcion.id} className="option-item">
               <input
                 type="checkbox"
                 id={`${tipo}-${opcion.id}`}
-                className="opcion-checkbox"
+                // className="opcion-checkbox"
                 checked={arraySeguro.includes(opcion.nombre)}
                 onChange={() => manejarSeleccionMultiple(tipo, opcion.nombre)}
               />
-              <label htmlFor={`${tipo}-${opcion.id}`} className="opcion-label">
+              <label htmlFor={`${tipo}-${opcion.id}`} /* className="opcion-label" */>
                 {opcion.nombre}
               </label>
             </div>
@@ -203,7 +203,7 @@ export default function FiltroMejorado({ alCambiarFiltros, conteoProductos = 134
   const renderizarColores = () => {
     return (
       <>
-        <div className="colores-grid">
+        <div className="colors__grid">
           {coloresDisponibles.map((color) => {
             const coloresActuales = Array.isArray(filtros.colores) ? filtros.colores : []
 
@@ -226,30 +226,31 @@ export default function FiltroMejorado({ alCambiarFiltros, conteoProductos = 134
   }
 
   return (
-    <div className="filtro-container">
+    <div className="filter-container">
       {/* Vista de página */}
-      <div className="vista-pagina">
-        <span>Ver página:</span>
-        <div className="icono-grid">
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor">
-            <rect x="0" y="0" width="3" height="3" />
-            <rect x="4.5" y="0" width="3" height="3" />
-            <rect x="9" y="0" width="3" height="3" />
-            <rect x="0" y="4.5" width="3" height="3" />
-            <rect x="4.5" y="4.5" width="3" height="3" />
-            <rect x="9" y="4.5" width="3" height="3" />
-            <rect x="0" y="9" width="3" height="3" />
-            <rect x="4.5" y="9" width="3" height="3" />
-            <rect x="9" y="9" width="3" height="3" />
-          </svg>
+      <div className="view__articles">
+        <div data-rendered-view="grid-big">
+          <span>Ver página:</span>
+          <div data-rendered-view>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M16.7368 17.7368C16.7368 17.1846 17.1846 16.7368 17.7368 16.7368H21C21.5523 16.7368 22 17.1846 22 17.7368V21C22 21.5523 21.5523 22 21 22H17.7368C17.1846 22 16.7368 21.5523 16.7368 21V17.7368Z" fill="currentColor"/>
+              <path d="M9.36842 17.7368C9.36842 17.1846 9.81613 16.7368 10.3684 16.7368H13.6316C14.1839 16.7368 14.6316 17.1846 14.6316 17.7368V21C14.6316 21.5523 14.1839 22 13.6316 22H10.3684C9.81613 22 9.36842 21.5523 9.36842 21V17.7368Z" fill="currentColor"/>
+              <path d="M2 17.7368C2 17.1846 2.44772 16.7368 3 16.7368H6.26316C6.81545 16.7368 7.26316 17.1846 7.26316 17.7368V21C7.26316 21.5523 6.81545 22 6.26316 22H3C2.44771 22 2 21.5523 2 21V17.7368Z" fill="currentColor"/>
+              <path d="M16.7368 10.3684C16.7368 9.81613 17.1846 9.36842 17.7368 9.36842H21C21.5523 9.36842 22 9.81613 22 10.3684V13.6316C22 14.1839 21.5523 14.6316 21 14.6316H17.7368C17.1846 14.6316 16.7368 14.1839 16.7368 13.6316V10.3684Z" fill="currentColor"/>
+              <path d="M9.36842 10.3684C9.36842 9.81613 9.81613 9.36842 10.3684 9.36842H13.6316C14.1839 9.36842 14.6316 9.81613 14.6316 10.3684V13.6316C14.6316 14.1839 14.1839 14.6316 13.6316 14.6316H10.3684C9.81613 14.6316 9.36842 14.1839 9.36842 13.6316V10.3684Z" fill="currentColor"/>
+              <path d="M2 10.3684C2 9.81613 2.44772 9.36842 3 9.36842H6.26316C6.81545 9.36842 7.26316 9.81613 7.26316 10.3684V13.6316C7.26316 14.1839 6.81545 14.6316 6.26316 14.6316H3C2.44771 14.6316 2 14.1839 2 13.6316V10.3684Z" fill="currentColor"/>
+              <path d="M16.7368 3C16.7368 2.44771 17.1846 2 17.7368 2H21C21.5523 2 22 2.44772 22 3V6.26316C22 6.81545 21.5523 7.26316 21 7.26316H17.7368C17.1846 7.26316 16.7368 6.81545 16.7368 6.26316V3Z" fill="currentColor"/>
+              <path d="M2 3C2 2.44771 2.44772 2 3 2H13.6316C14.1839 2 14.6316 2.44772 14.6316 3V6.26316C14.6316 6.81545 14.1839 7.26316 13.6316 7.26316H3C2.44771 7.26316 2 6.81545 2 6.26316V3Z" fill="currentColor"/>
+            </svg>
+          </div>
         </div>
       </div>
 
       {/* Ordenar por */}
-      <div className="ordenar-seccion">
-        <label className="ordenar-label">Ordenar por:</label>
+      <div className="select__order-filter">
+        <label htmlFor="order_by">Ordenar por:</label>
         <select
-          className="ordenar-select"
+          id="order_by"
           value={filtros.ordenarPor}
           onChange={(e) => manejarCambioFiltro("ordenarPor", e.target.value)}
         >
@@ -262,99 +263,95 @@ export default function FiltroMejorado({ alCambiarFiltros, conteoProductos = 134
       </div>
 
       {/* Información de productos */}
-      <div className="productos-info">
-        <div className="productos-titulo">Productos:</div>
-        <div className="productos-categoria">Teléfonos y Smartphones ({conteoProductos})</div>
+      <div className="products__info">
+        <p className=":label">Productos:</p>
+        <div className="products__total-items"><span>Teléfonos y Smartphones ({conteoProductos})</span></div>
       </div>
 
-      {/* Título de filtros */}
-      <div className="filtros-titulo">Filtrar por:</div>
-
-      {/* Filtro por Marca */}
-      <div className="filtro-seccion">
-        <div className="filtro-header" onClick={() => alternarSeccion("marca")}>
-          <span className="filtro-nombre">Marca</span>
-          <div className="filtro-toggle">{seccionesExpandidas.marca ? "−" : "+"}</div>
-        </div>
-        <div className={`filtro-contenido ${!seccionesExpandidas.marca ? "oculto" : ""}`}>
-          {renderizarOpciones([], "marcas")}
-        </div>
-      </div>
-
-      {/* Filtro por Precio */}
-      <div className="filtro-seccion">
-        <div className="filtro-header" onClick={() => alternarSeccion("precio")}>
-          <span className="filtro-nombre">Precio</span>
-          <div className="filtro-toggle">{seccionesExpandidas.precio ? "−" : "+"}</div>
-        </div>
-        <div className={`filtro-contenido ${!seccionesExpandidas.precio ? "oculto" : ""}`}>
-          {renderizarOpciones(rangosPrecios, "rangosPrecio")}
-          <div className="precio-inputs">
-            <input
-              type="number"
-              placeholder="Min"
-              className="precio-input"
-              value={filtros.precioMinimo}
-              onChange={(e) => manejarCambioFiltro("precioMinimo", e.target.value)}
-            />
-            <span className="precio-separador">-</span>
-            <input
-              type="number"
-              placeholder="Max"
-              className="precio-input"
-              value={filtros.precioMaximo}
-              onChange={(e) => manejarCambioFiltro("precioMaximo", e.target.value)}
-            />
+      <div className="filters__section">
+        {/* Título de filtros */}
+        <div className="filter__title"><p className=":label">Filtrar por:</p></div>
+        {/* Filtro por Marca */}
+        <div className="filter__section">
+          <div className="filter__header" onClick={() => alternarSeccion("marca")}>
+            <span>Marca</span>
+            <div data-expand={seccionesExpandidas.marca}>{seccionesExpandidas.marca ? "−" : "+"}</div>
+          </div>
+          <div className={`filter__content ${!seccionesExpandidas.marca ? "oculto" : ""}`}>
+            {renderizarOpciones([], "marcas")}
           </div>
         </div>
-      </div>
-
-      {/* Filtro por Destacados */}
-      <div className="filtro-seccion">
-        <div className="filtro-header" onClick={() => alternarSeccion("destacados")}>
-          <span className="filtro-nombre">Destacados</span>
-          <div className="filtro-toggle">{seccionesExpandidas.destacados ? "−" : "+"}</div>
+        {/* Filtro por Precio */}
+        <div className="filter__section">
+          <div className="filter__header" onClick={() => alternarSeccion("precio")}>
+            <span>Precio</span>
+            <div data-expand={seccionesExpandidas.precio}>{seccionesExpandidas.precio ? "−" : "+"}</div>
+          </div>
+          <div className={`filter__content ${!seccionesExpandidas.precio ? "oculto" : ""}`}>
+            {renderizarOpciones(rangosPrecios, "rangosPrecio")}
+            <div className="range__price-inputs">
+              <input
+                type="number"
+                placeholder="Min"
+                className="precio-input"
+                value={filtros.precioMinimo}
+                onChange={(e) => manejarCambioFiltro("precioMinimo", e.target.value)}
+              />
+              <span className="precio-separador">-</span>
+              <input
+                type="number"
+                placeholder="Max"
+                className="precio-input"
+                value={filtros.precioMaximo}
+                onChange={(e) => manejarCambioFiltro("precioMaximo", e.target.value)}
+              />
+            </div>
+          </div>
         </div>
-        <div className={`filtro-contenido ${!seccionesExpandidas.destacados ? "oculto" : ""}`}>
-          {renderizarOpciones(
-            [
-              { id: "nuevos", nombre: "NUEVOS" },
-              { id: "promocion", nombre: "EN PROMOCIÓN"},
-              { id: "reacondicionados", nombre: "REACONDICIONADOS"},
-            ],
-            "destacados",
-          )}
+        {/* Filtro por Destacados */}
+        <div className="filter__section">
+          <div className="filter__header" onClick={() => alternarSeccion("destacados")}>
+            <span>Destacados</span>
+            <div data-expand={seccionesExpandidas.destacados}>{seccionesExpandidas.destacados ? "−" : "+"}</div>
+          </div>
+          <div className={`filter__content ${!seccionesExpandidas.destacados ? "oculto" : ""}`}>
+            {renderizarOpciones(
+              [
+                { id: "nuevos", nombre: "Nuevos" },
+                { id: "promocion", nombre: "En Promoción"},
+                { id: "reacondicionados", nombre: "Reacondicionados"},
+              ],
+              "destacados",
+            )}
+          </div>
         </div>
-      </div>
-
-      {/* Filtro por Color */}
-      <div className="filtro-seccion">
-        <div className="filtro-header" onClick={() => alternarSeccion("color")}>
-          <span className="filtro-nombre">Color</span>
-          <div className="filtro-toggle">{seccionesExpandidas.color ? "−" : "+"}</div>
+        {/* Filtro por Color */}
+        <div className="filter__section">
+          <div className="filter__header" onClick={() => alternarSeccion("color")}>
+            <span>Color</span>
+            <div data-expand={seccionesExpandidas.color}>{seccionesExpandidas.color ? "−" : "+"}</div>
+          </div>
+          <div className={`filter__content ${!seccionesExpandidas.color ? "oculto" : ""}`}>{renderizarColores()}</div>
         </div>
-        <div className={`filtro-contenido ${!seccionesExpandidas.color ? "oculto" : ""}`}>{renderizarColores()}</div>
-      </div>
-
-      {/* Filtro por Memoria */}
-      <div className="filtro-seccion">
-        <div className="filtro-header" onClick={() => alternarSeccion("memoria")}>
-          <span className="filtro-nombre">Memoria</span>
-          <div className="filtro-toggle">{seccionesExpandidas.memoria ? "−" : "+"}</div>
+        {/* Filtro por Memoria */}
+        <div className="filter__section">
+          <div className="filter__header" onClick={() => alternarSeccion("memoria")}>
+            <span>Memoria</span>
+            <div data-expand={seccionesExpandidas.memoria}>{seccionesExpandidas.memoria ? "−" : "+"}</div>
+          </div>
+          <div className={`filter__content ${!seccionesExpandidas.memoria ? "oculto" : ""}`}>
+            {renderizarOpciones(opcionesMemoria, "almacenamiento")}
+          </div>
         </div>
-        <div className={`filtro-contenido ${!seccionesExpandidas.memoria ? "oculto" : ""}`}>
-          {renderizarOpciones(opcionesMemoria, "almacenamiento")}
-        </div>
-      </div>
-
-      {/* Filtro por Accesibilidad */}
-      <div className="filtro-seccion">
-        <div className="filtro-header" onClick={() => alternarSeccion("accesibilidad")}>
-          <span className="filtro-nombre">Accesibilidad</span>
-          <div className="filtro-toggle">{seccionesExpandidas.accesibilidad ? "−" : "+"}</div>
-        </div>
-        <div className={`filtro-contenido ${!seccionesExpandidas.accesibilidad ? "oculto" : ""}`}>
-          {renderizarOpciones(opcionesAccesibilidad, "accesibilidad")}
+        {/* Filtro por Accesibilidad */}
+        <div className="filter__section">
+          <div className="filter__header" onClick={() => alternarSeccion("accesibilidad")}>
+            <span>Accesibilidad</span>
+            <div data-expand={seccionesExpandidas.accesibilidad}>{seccionesExpandidas.accesibilidad ? "−" : "+"}</div>
+          </div>
+          <div className={`filter__content ${!seccionesExpandidas.accesibilidad ? "oculto" : ""}`}>
+            {renderizarOpciones(opcionesAccesibilidad, "accesibilidad")}
+          </div>
         </div>
       </div>
     </div>

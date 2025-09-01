@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useCallback } from "react"
 import "./productos.css"
-import Filtro from "./filtro"
+import Filtro from "@/components/filtro"
 import {CardItem} from "@/components/CardItem"
 import { supabase } from "@/supabaseClient"
 import type { itemCatalogo, EstadoFiltros } from "@/types"
@@ -29,7 +29,7 @@ export function Productos() {
     ordenarPor: "relevancia",
   })
 
-  const productosPorPagina = 10
+  const productosPorPagina = 12
 
   useEffect(() => {
     const fetchProductos = async () => {
@@ -40,18 +40,18 @@ export function Productos() {
         if (!error && data && data.length > 0) {
           setDatosProductos(data)
         } else {
-          console.log("Using fallback product data - Supabase table not found")
+          // console.log("Using fallback product data - Supabase table not found")
           setErrorCarga("No cargó ni a palos.")
         }
       } catch (error) {
         console.error("Error al cargar productos:", error)
-        setErrorCarga("No se pudo cargar la información de productos.")
+        // setErrorCarga("No se pudo cargar la información de productos.")
         return
       }
     }
 
     fetchProductos()
-  }, [supabase])
+  }, []) //se elimina supabase del array, no afecta en nada y solo sobrecarga de fallbacks
 
   const aplicarFiltros = useCallback((productos: itemCatalogo[], filtros: EstadoFiltros, terminoBusqueda: string) => {
     let filtrados = productos.filter((producto) =>
@@ -146,11 +146,11 @@ export function Productos() {
   const totalPaginas = Math.ceil(productosFiltrados.length / productosPorPagina)
 
   return (
-    <div className="products-container">
+    <section className="products-container">
       <div className="filter-sidebar">
         <Filtro alCambiarFiltros={manejarCambioFiltros} conteoProductos={productosFiltrados.length} />
       </div>
-
+      
       <div className="products-content">
         <div className="search-section">
           <input
@@ -204,6 +204,6 @@ export function Productos() {
           </div>
         )}
       </div>
-    </div>
+    </section>
   )
 }
