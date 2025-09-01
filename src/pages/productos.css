@@ -1,15 +1,18 @@
 /* Products with Filter Styles */
+.products-container {
+  display: flex;
+  min-height: 100vh;
+}
+
 .filter-sidebar {
-  position: fixed;
-  height: -webkit-fill-available;
   width: 320px;
-  border-right: 1px solid var(--input_outline);
+  border-right: 1px solid #e5e7eb;
+  background-color: white;
 }
 
 .products-content {
   flex: 1;
   padding: 16px;
-  margin-inline-start: 320px;
 }
 
 .search-section {
@@ -26,7 +29,8 @@
 
 .products-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
   margin-bottom: 32px;
 }
 
