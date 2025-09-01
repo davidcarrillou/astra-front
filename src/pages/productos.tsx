@@ -110,8 +110,10 @@ export function Productos() {
 
   const [busqueda, setBusqueda] = useState("")
   const [paginaActual, setPaginaActual] = useState(1)
-  const [datosProductos, setDatosProductos] = useState<itemCatalogo[]>(productosFallback)
-  const [productosFiltrados, setProductosFiltrados] = useState<itemCatalogo[]>(productosFallback)
+  const [datosProductos, setDatosProductos] = useState<itemCatalogo[]>([])
+  const [productosFiltrados, setProductosFiltrados] = useState<itemCatalogo[]>([])
+  const [errorCarga, setErrorCarga] = useState<string | null>(null)
+
   const [filtrosActuales, setFiltrosActuales] = useState<EstadoFiltros>({
     marcas: [],
     rangosPrecio: [],
@@ -130,18 +132,19 @@ export function Productos() {
   useEffect(() => {
     const fetchProductos = async () => {
       try {
-        const { data, error } = await supabase.from("vista_catalogo").select("*")
+        const { data, error } = await supabase.from("vista_catalogos").select("*")
         console.log(data)
 
         if (!error && data && data.length > 0) {
           setDatosProductos(data)
         } else {
           console.log("Using fallback product data - Supabase table not found")
-          // Keep using fallback data
+          setErrorCarga("No cargó ni a palos.")
         }
       } catch (error) {
-        console.log("Using fallback product data - Supabase connection issue:", error)
-        // Keep using fallback data
+        console.error("Error al cargar productos:", error)
+        setErrorCarga("No se pudo cargar la información de productos.")
+        return
       }
     }
 
@@ -257,13 +260,20 @@ export function Productos() {
           />
         </div>
 
-        <div className="products-grid">
-          {productosActuales.map((producto) => (
-            <div>
-                <CardItem item={producto} />
+                  {errorCarga ? (
+            <div className="error-message">
+              <h1>{errorCarga}</h1>
             </div>
+          ) : (
+            <div className="products-grid">
+              {productosActuales.map((producto) => (
+                <CardItem key={producto.id_catalogo} item={producto} />
+              ))}
+            </div>
+          )}
+          {productosActuales.map((producto) => (
+                <CardItem item={producto} />
           ))}
-        </div>
 
         {totalPaginas > 1 && (
           <div className="pagination">
