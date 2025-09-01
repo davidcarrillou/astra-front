@@ -9,104 +9,6 @@ import type { itemCatalogo, EstadoFiltros } from "@/types"
 
 
 export function Productos() {
-  const productosFallback: itemCatalogo[] = [
-    {
-        id_catalogo: 1,
-        nombre_producto: "iPhone 15 Pro",
-        modelo: "Apple",
-        precio: 1199.99,
-        descuento: "null",
-        url_imagen: ["/iphone-15-pro-hands.png"],
-        estado: "Nuevo",
-        color: "Negro",
-        memoria: "256GB",
-        ram: "8GB",
-        activo: false,
-        categoria: "",
-        descripcion: "",
-        fecha_creacion: ""
-    },
-    {
-        id_catalogo: 2,
-        nombre_producto: "Samsung Galaxy S24",
-        modelo: "Samsung",
-        precio: 899.99,
-        descuento: "10%",
-        url_imagen: ["/samsung-galaxy-s24.png"],
-        estado: "Nuevo",
-        color: "Azul",
-        memoria: "128GB",
-        ram: "8GB",
-        activo: false,
-        categoria: "",
-        descripcion: "",
-        fecha_creacion: ""
-    },
-    {
-        id_catalogo: 3,
-        nombre_producto: "Xiaomi Mi 13",
-        modelo: "Xiaomi",
-        precio: 599.99,
-        descuento: "null",
-        url_imagen: ["/xiaomi-mi-13.png"],
-        estado: "Nuevo",
-        color: "Verde",
-        memoria: "256GB",
-        ram: "12GB",
-        activo: false,
-        categoria: "",
-        descripcion: "",
-        fecha_creacion: ""
-    },
-    {
-        id_catalogo: 4,
-        nombre_producto: "iPhone 14",
-        modelo: "Apple",
-        precio: 999.99,
-        descuento: "15%",
-        url_imagen: ["/iphone-14-on-desk.png"],
-        estado: "Reacondicionado",
-        color: "Blanco",
-        memoria: "128GB",
-        ram: "6GB",
-        activo: false,
-        categoria: "",
-        descripcion: "",
-        fecha_creacion: ""
-    },
-    {
-        id_catalogo: 5,
-        nombre_producto: "OnePlus 11",
-        modelo: "OnePlus",
-        precio: 699.99,
-        descuento: "20%",
-        url_imagen: ["/oneplus-11.png"],
-        estado: "Nuevo",
-        color: "Verde",
-        memoria: "256GB",
-        ram: "16GB",
-        activo: false,
-        categoria: "",
-        descripcion: "",
-        fecha_creacion: ""
-    },
-    {
-        id_catalogo: 6,
-        nombre_producto: "Google Pixel 8",
-        modelo: "Google",
-        precio: 699.99,
-        descuento: "null",
-        url_imagen: ["/google-pixel-8.png"],
-        estado: "Nuevo",
-        color: "Gris Oscuro",
-        memoria: "128GB",
-        ram: "8GB",
-        activo: false,
-        categoria: "",
-        descripcion: "",
-        fecha_creacion: ""
-    },
-  ]
 
   const [busqueda, setBusqueda] = useState("")
   const [paginaActual, setPaginaActual] = useState(1)
@@ -132,7 +34,7 @@ export function Productos() {
   useEffect(() => {
     const fetchProductos = async () => {
       try {
-        const { data, error } = await supabase.from("vista_catalogos").select("*")
+        const { data, error } = await supabase.from("vista_catalogo").select("*")
         console.log(data)
 
         if (!error && data && data.length > 0) {
@@ -260,7 +162,7 @@ export function Productos() {
           />
         </div>
 
-                  {errorCarga ? (
+          {errorCarga ? (
             <div className="error-message">
               <h1>{errorCarga}</h1>
             </div>
@@ -271,9 +173,6 @@ export function Productos() {
               ))}
             </div>
           )}
-          {productosActuales.map((producto) => (
-                <CardItem item={producto} />
-          ))}
 
         {totalPaginas > 1 && (
           <div className="pagination">
