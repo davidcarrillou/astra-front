@@ -1,45 +1,56 @@
-export type productosData = {
+export type ProductoDetalle = {
   id_producto: number
-  nombre: string
-  descripcion: string
-  precio: number
+  nombre_producto: string
+  modelo: string
+  descripcion_corta: string
+  precio: string
   marca: string
-  color: string
+  nombre_color: string
+  valor_color: string
   categoria: string
-  memoria: string
-  ram: string
-  destacado: boolean
-  nuevo: boolean
-  reacondicionado: boolean
-  activo: boolean
   fecha: string
+  precio_final: string
+  descuento_porcentaje: string
+  cantidad_disponible: number
+  url_imagen: string[]
+  especificaciones: Especificacion[]
+  tags: string[]
+}
+
+export type Especificacion = {
+  clave: string
+  valor: string
 }
 
 export type itemCatalogo = {
-  activo: boolean 
-  categoria: string 
-  color: string 
-  descripcion: string
-  descuento: string
-  estado: string
-  memoria: string
-  ram: string
-  fecha_creacion: string
   id_catalogo: number
-  modelo: string
   nombre_producto: string
+  modelo: string
+  marca: string
+  color: string
+  memoria: string
+  categoria: string
+  ram: string
   precio: number
-  url_imagen: string[]
+  precio_final: number
+  descuento_porcentaje: number | null
+  cantidad_disponible: number
+  imagen_principal: string
+  tags: string[]
 }
+
 export interface EstadoFiltros {
   marcas: string[]
   rangosPrecio: string[]
   precioMinimo: string
   precioMaximo: string
-  destacados: string[]
+  destacados: string[]         // ahora basado en tags: ["nuevo", "en-promocion", "reacondicionado"]
   colores: string[]
   almacenamiento: string[]
   ram: string[]
-  accesibilidad: string[]
+  accesibilidad: string[]      // ej: ["disponible"]
+  caracteristicas: string[]    // ej: ["gaming", "pantalla 120Hz"]
   ordenarPor: string
+  categorias: string[]
+  tags: string[]
 }

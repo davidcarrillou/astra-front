@@ -1,0 +1,71 @@
+.notdata-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  text-align: center;
+  border: 1px solid #e5e5e5;
+  border-radius: 12px;
+  background-color: #fafafa;
+}
+
+.notdata-icon {
+  font-size: 2.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.notdata-message {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 0.25rem;
+}
+
+.notdata-sub {
+  font-size: 0.9rem;
+  color: #777;
+  margin-bottom: 1rem;
+}
+
+.notdata-button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 140px;
+  font-size: 0.95rem;
+}
+
+.notdata-button:hover {
+  background-color: #0056b3;
+}
+
+.notdata-button:disabled {
+  background-color: #999;
+  cursor: not-allowed;
+}
+
+/* Loader dentro del botón */
+.loader {
+  width: 16px;
+  height: 16px;
+  border: 3px solid #fff;
+  border-top: 3px solid transparent;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}

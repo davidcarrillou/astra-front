@@ -1,36 +1,32 @@
 import React from "react"
 import "./cards.css"
 import type { itemCatalogo } from "@/types"
+import { Link } from "react-router-dom"
 
 interface CardItemProps {
   item: itemCatalogo
 }
 
-const calcularPrecioFinal = (precio: number, descuento: string | null): number => {
-  if (!descuento) return precio
-  const match = descuento.match(/\((\d+(\.\d+)?)%\)/)
-  const porcentaje = match ? parseFloat(match[1]) : 0
-  return +(precio - (precio * porcentaje / 100)).toFixed(2)
-}
-
 export const CardItem: React.FC<CardItemProps> = ({ item }) => {
+  const modeloUri = encodeURIComponent(item.modelo ?? "sin-modelo")
+  const productoUri = `${item.id_catalogo}`
+
   return (
     <article key={item.id_catalogo} className="card-item">
-      <a href="#">
-        {/* Contenedor superior */}
+      <Link to={`/products/${productoUri}/${modeloUri}`}>
         <div
           data-product-top
           title={`${item.nombre_producto} - ${item.modelo}`}
           aria-description={`${item.nombre_producto} - ${item.modelo}`}
         >
-          {/* Badge dinámico */}
-          {item.estado && (
-            <div data-product-badge={item.estado}>
-              <div className={`badge-container ${item.estado.toLowerCase()}`}>
-                <span>{item.estado}</span>
+          {/* Badges dinámicos desde tags */}
+          {item.tags?.map((tag, i) => (
+            <div key={i} data-product-badge={tag}>
+              <div className={`badge-container ${tag.toLowerCase().replace(/\s/g, "-")}`}>
+                <span>{tag}</span>
               </div>
             </div>
-          )}
+          ))}
 
           {/* Modelo */}
           <div data-product-model>
@@ -40,7 +36,7 @@ export const CardItem: React.FC<CardItemProps> = ({ item }) => {
 
           {/* Imagen */}
           <img
-            src={item.url_imagen?.[0] || "/img/default-product.jpg"}
+            src={item.imagen_principal || "/img/default-product.jpg"}
             alt={item.nombre_producto}
             loading="lazy"
           />
@@ -55,14 +51,19 @@ export const CardItem: React.FC<CardItemProps> = ({ item }) => {
           <div data-product-details>
             <div data-product-price>
               <div className="product-og-price">
-                <span>${calcularPrecioFinal(item.precio, item.descuento)}</span>
+                <span>${item.precio_final}</span>
               </div>
 
-              {item.descuento && (
+              {item.descuento_porcentaje && (
                 <div className="product-old-price">
                   <span className="tachado">${item.precio}</span>
+                  <span className="descuento">{item.descuento_porcentaje}% OFF</span>
                 </div>
               )}
+            </div>
+
+            <div className={`stock-indicator ${item.cantidad_disponible > 0 ? "disponible" : "agotado"}`}>
+              {item.cantidad_disponible > 0 ? "Disponible" : "Sin stock"}
             </div>
 
             <button type="button" tabIndex={-1}>
@@ -70,7 +71,7 @@ export const CardItem: React.FC<CardItemProps> = ({ item }) => {
             </button>
           </div>
         </div>
-      </a>
+      </Link>
     </article>
   )
 }

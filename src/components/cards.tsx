@@ -1,91 +1,92 @@
-import React from "react";
-import "./cards.css";
-import type { itemCatalogo } from "@/types";
+"use client"
+
+import type React from "react"
+import "./cards.css"
+import type { itemCatalogo } from "@/types"
+import { Link } from "react-router-dom"
+
 interface itemProductoProps {
-  itemProducto: itemCatalogo[];
+  datosProductos: itemCatalogo
 }
 
-
-const Cards: React.FC<itemProductoProps> = ({ itemProducto }) => {
-  if (!itemProducto || itemProducto.length === 0) {
-    return <p>No hay productos disponibles.</p>;
+const Cards: React.FC<itemProductoProps> = ({ datosProductos }) => {
+  if (!datosProductos) {
+    return <p>No hay producto disponible.</p>
   }
+
+  const productoSlug = datosProductos.modelo || `producto-${datosProductos.id_catalogo}`
 
   return (
     <div className="cards">
-      {itemProducto.map((item) => (
-        <article key={item.id_catalogo}>
-          <a href="#">
-            {/* Contenedor superior */}
-            <div
-              data-product-top
-              title={`${item.nombre_producto} - ${item.modelo}`}
-              aria-description={`${item.nombre_producto} - ${item.modelo}`}
-            >
-              {/* Badge dinámico */}
-              {item.estado  && (
-                <div data-product-badge={item.estado}>
-                  <div className="badge-container">
-                    <span>{item.estado}</span>
-                  </div>
+      <article key={datosProductos.id_catalogo}>
+        <Link to={`/products/${productoSlug}`}>
+          <div
+            data-product-top
+            title={`${datosProductos.nombre_producto} - ${datosProductos.modelo}`}
+            aria-description={`${datosProductos.nombre_producto} - ${datosProductos.modelo}`}
+          >
+            {datosProductos.estado && (
+              <div data-product-badge={datosProductos.estado}>
+                <div className="badge-container">
+                  <span>{datosProductos.estado}</span>
                 </div>
-              )}
-
-              {/* Modelo */}
-              <div data-product-model>
-                <strong data-model={item.nombre_producto} aria-label={item.nombre_producto} />
-                <span>{item.modelo}</span>
               </div>
+            )}
 
-              {/* Imagen */}
-              {item.url_imagen && (
-                <img
-                  src={item.url_imagen?.[0] || "/img/default-product.jpg"}
-                  alt={item.nombre_producto}
-                  loading="lazy"
-                />
-              )}
+            <div data-product-model>
+              <strong data-model={datosProductos.nombre_producto} aria-label={datosProductos.nombre_producto} />
+              <span>{datosProductos.modelo}</span>
             </div>
 
-            {/* Contenedor inferior */}
-            <div data-product-info>
-              <h2 title={item.nombre_producto} className=":nll-clamp">
-                {item.nombre_producto}
-              </h2>
+            {datosProductos.url_imagen && (
+              <img
+                src={datosProductos.url_imagen?.[0] || "/img/default-product.jpg"}
+                alt={datosProductos.nombre_producto}
+                loading="lazy"
+              />
+            )}
+          </div>
 
-              <div data-product-details>
-                <div data-product-price>
-                  <div className="product-og-price">
-                    <span>
-                      ${calcularPrecioFinal(item.precio, item.descuento)}
-                    </span>
-                  </div>
-                  {item.descuento && (
-                    <div className="product-old-price">
-                      <span className="tachado">
-                        ${item.precio}
-                      </span>
-                    </div>
-                  )}
+          <div data-product-info>
+            <h2 title={datosProductos.nombre_producto} className="nll-clamp">
+              {datosProductos.nombre_producto}
+            </h2>
+
+            <div data-product-details>
+              <div data-product-price>
+                <div className="product-og-price">
+                  <span>${calcularPrecioFinal(datosProductos.precio, datosProductos.descuento)}</span>
                 </div>
-                <button type="button" tabIndex={-1}>
-                  Agregar al carrito
-                </button>
+                {datosProductos.descuento && (
+                  <div className="product-old-price">
+                    <span className="tachado">${datosProductos.precio}</span>
+                  </div>
+                )}
               </div>
+              <button
+                type="button"
+                tabIndex={-1}
+                onClick={(e) => {
+                  e.preventDefault()
+                  e.stopPropagation()
+                  // Add to cart logic here
+                }}
+              >
+                Agregar al carrito
+              </button>
             </div>
-          </a>
-        </article>
-      ))}
+          </div>
+        </Link>
+      </article>
     </div>
-  );
-};
+  )
+}
 
-export default Cards;
+const calcularPrecioFinal = (precio: number | null, descuento: string | null): number => {
+  if (!precio || !descuento) return precio || 0
+  const match = descuento.match(/(\d+(\.\d+)?)%/)
+  const porcentaje = match ? Number.parseFloat(match[1]) : 0
+  return +(precio - (precio * porcentaje) / 100).toFixed(2)
+}
 
-
-const calcularPrecioFinal = (precio: number, descuento: string | null): number => {
-  if (!descuento) return precio;
-  const match = descuento.match(/\((\d+(\.\d+)?)%\)/);
-  const porcentaje = match ? parseFloat(match[1]) : 0;
-  return +(precio - (precio * porcentaje / 100)).toFixed(2);
-};
+export default Cards
