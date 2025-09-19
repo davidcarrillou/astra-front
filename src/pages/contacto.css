@@ -1,366 +1,163 @@
-:root {
-  --Nll_Invalid-col: #ef4444;
-  --Nll_InvalidOP-col: rgba(239, 68, 68, 0.1);
-  --Nll_White-col: #ffffff;
-  --Nll_Brand-col: #3b82f6;
-  --Nll_Focus-col: #1d4ed8;
-}
-
-section {
-  width: calc(100% - 6rem);
-  max-width: 960px;
-  justify-self: center;
-  margin-block-start: 10.25rem;
+.form_container {
+    width: calc(100% - 9rem);
+    max-width: 960px;
+    justify-self: center;
+    margin-block-start: 5.25rem
 }
 
 .form_container {
-  display: grid;
-  grid-template-columns: max-content 1fr;
+    display: grid;
+    grid-template-columns: max-content 1fr
 }
 
 .form_contact {
-  margin-inline-end: 3rem;
-  width: 360px;
+    margin-inline-end: 3rem;
+    width: 360px
 }
 
 .form_contact .form_header {
-  margin-block-end: 1.5rem;
-}
+    margin-block-end: 1.5rem;
 
-.form_contact .form_header h1 {
-  width: fit-content;
-  font-size: 2rem;
-  font-family: system-ui, -apple-system, sans-serif;
-  font-weight: 600;
-  letter-spacing: 0.01em;
-  margin: 0;
-}
+    h1 {
+        width: fit-content;
+        font-size: 2rem;
+        font-family: Clash Grotesk;
+        font-weight: 600;
+        letter-spacing: .01lh;
+        text-box-trim: trim-both;
+    }
 
-.form_contact .form_header p {
-  width: fit-content;
-  font-size: 1rem;
-  font-family: system-ui, -apple-system, sans-serif;
-  letter-spacing: 0.005em;
-  margin: 0.5rem 0 0 0;
-  color: #666;
+    p {
+        width: fit-content;
+        font-size: 1rem;
+        font-family: Satoshi;
+        letter-spacing: .005lh;
+        text-box-trim: trim-both;
+    }
 }
 
 .form_contact form {
-  width: 100%;
-  display: inline-grid;
-  grid-auto-flow: row;
-  align-items: start;
-  gap: 1rem;
-}
+    width: 100%;
+    display: inline-grid;
+    grid-auto-flow: row;
+    align-items: start;
+    gap: 1rem;
 
-.form_item {
-  display: inline-grid;
-  grid-auto-flow: row;
-  align-items: start;
-  gap: 0.375rem;
-}
+    .form_item {
+        display: inline-grid;
+        grid-auto-flow: row;
+        align-items: start;
+        gap: .375rem;
 
-.form_item label {
-  width: fit-content;
-  font-size: 1rem;
-  font-family: system-ui, -apple-system, sans-serif;
-  font-weight: 600;
-  letter-spacing: 0.005em;
-}
+        label i {
+            color: var(--input_invalid);
+            font-style: normal;
+            margin-inline-start: .25lh;
+        }
 
-.form_item label i {
-  color: var(--Nll_Invalid-col);
-  font-style: normal;
-  margin-inline-start: 0.25em;
-}
+        .error__message {
+            width: fit-content;
+            font-size: .75rem;
+            font-family: Satoshi;
+            font-weight: 600;
+            letter-spacing: .005lh;
+            text-box-trim: trim-both;
+            color: var(--input_invalid);
+        }
+    }
 
-.form_item input,
-.form_item textarea {
-  width: 100%;
-  padding: 0.75rem 1rem;
-  border: 1px solid #d1d5db;
-  border-radius: 0.5rem;
-  font-size: 1rem;
-  font-family: system-ui, -apple-system, sans-serif;
-  resize: none;
-  transition: all 240ms ease-in-out;
-}
+    >button {
+        width: fit-content;
+        display: inline-grid;
+        grid-auto-flow: column;
+        justify-content: center;
+        align-items: center;
+        padding: .5rem 1rem;
+        gap: .5rem;
+        font-size: 1rem;
+        font-family: Satoshi;
+        font-weight: 400;
+        letter-spacing: .005lh;
 
-.form_item input:focus,
-.form_item textarea:focus {
-  outline: none;
-  border-color: var(--Nll_Brand-col);
-  box-shadow: 0px 0px 0px 2.5px rgba(59, 130, 246, 0.1);
-}
+        svg {
+            width: .75rem;
+            height: .75rem;
+        }
 
-.form_item input.error,
-.form_item textarea.error {
-  border: 1px solid var(--Nll_Invalid-col);
-  box-shadow: 0px 0px 0px 2.5px var(--Nll_InvalidOP-col);
-  background-color: color-mix(in srgb, var(--Nll_Invalid-col) 1%, transparent 99%);
-}
+        .dds__loading-indicator {
+            height: 100%;
+            justify-content: center;
+            align-items: center;
+            justify-items: center;
+            display: grid;
+            grid-template: ". top ." auto "left center right" auto ". bottom ." auto;
+        }
 
-.error__message {
-  width: fit-content;
-  font-size: 0.75rem;
-  font-family: system-ui, -apple-system, sans-serif;
-  font-weight: 600;
-  letter-spacing: 0.005em;
-  color: var(--Nll_Invalid-col);
-}
+        .dds__loading-indicator__spinner {
+            grid-area: center;
+            position: relative;
+            border-radius: 50%;
+            animation: spin .92s infinite linear;
+            border: .188rem solid color-mix(in srgb, var(--Nll_White-col) 25%, var(--Nll_Brand-col) 75%);
+            border-left: .188rem solid var(--Nll_Focus-col);
+            width: 1.25rem;
+            height: 1.25rem;
+            margin: auto;
+            z-index: 1;
+        }
+    }
 
-.error__message p {
-  margin: 0;
-}
-
-form > button {
-  width: fit-content;
-  display: inline-grid;
-  grid-auto-flow: column;
-  justify-content: center;
-  align-items: center;
-  padding: 0.75rem 1.5rem;
-  gap: 0.5rem;
-  font-size: 1rem;
-  font-family: system-ui, -apple-system, sans-serif;
-  font-weight: 500;
-  letter-spacing: 0.005em;
-  background-color: var(--Nll_Brand-col);
-  color: white;
-  border: none;
-  border-radius: 0.5rem;
-  cursor: pointer;
-  transition: all 200ms ease;
-}
-
-form > button:hover:not(:disabled) {
-  background-color: var(--Nll_Focus-col);
-  transform: translateY(-1px);
-}
-
-form > button:disabled {
-  opacity: 0.7;
-  cursor: not-allowed;
-}
-
-form > button svg {
-  width: 0.75rem;
-  height: 0.75rem;
-}
-
-.dds__loading-indicator {
-  height: 100%;
-  justify-content: center;
-  align-items: center;
-  justify-items: center;
-  display: grid;
-  grid-template:
-    ". top ." auto
-    "left center right" auto
-    ". bottom ." auto;
-}
-
-.dds__loading-indicator__spinner {
-  grid-area: center;
-  position: relative;
-  border-radius: 50%;
-  animation: spin 0.92s infinite linear;
-  border: 0.188rem solid color-mix(in srgb, var(--Nll_White-col) 25%, var(--Nll_Brand-col) 75%);
-  border-left: 0.188rem solid var(--Nll_Focus-col);
-  width: 1.25rem;
-  height: 1.25rem;
-  margin: auto;
-  z-index: 1;
-}
-
-.success-message p {
-  width: fit-content;
-  font-size: 1rem;
-  font-family: system-ui, -apple-system, sans-serif;
-  letter-spacing: 0.005em;
-  color: #059669;
-  background-color: #ecfdf5;
-  padding: 1rem;
-  border-radius: 0.5rem;
-  border: 1px solid #a7f3d0;
-  margin: 0;
+    .success-message p {
+        width: fit-content;
+        font-size: 1rem;
+        font-family: Satoshi;
+        letter-spacing: .005lh
+    }
 }
 
 .aside_container {
-  display: inline-grid;
-  grid-template-rows: max-content 1fr;
-  gap: 2rem;
+    display: inline-grid;
+    grid-template-rows: max-content 1fr
 }
 
 .brands h3,
 .address h3 {
-  font-size: 1.5rem;
-  font-family: system-ui, -apple-system, sans-serif;
-  letter-spacing: 0.01em;
-  margin: 0 0 0.5rem 0;
+    font-size: 1.5rem;
+    font-family: Satoshi;
+    letter-spacing: .01lh;
+    margin-block-end: .5lh
 }
 
 .qxigfptd {
-  position: relative;
-  height: 2.813rem;
-  overflow: hidden;
+    position: relative;
+    height: 2.813rem
 }
 
 .slider_cont {
-  position: absolute;
-  width: 100%;
-}
-
-.infinite-slider {
-  width: 100%;
-  overflow: hidden;
-}
-
-.brand-logos {
-  display: flex;
-  animation: scroll 20s linear infinite;
-  gap: 2rem;
-}
-
-.brand-logos span {
-  font-family: system-ui, -apple-system, sans-serif;
-  font-weight: 600;
-  color: #374151;
-  white-space: nowrap;
-  padding: 0.5rem 1rem;
-  background-color: #f3f4f6;
-  border-radius: 0.5rem;
-  border: 1px solid #e5e7eb;
+    position: absolute;
+    width: 100%
 }
 
 .g_map {
-  mix-blend-mode: multiply;
-  width: 100%;
-  height: calc(100% - 2.375rem);
-}
+    mix-blend-mode: multiply;
+    width: 100%;
+    height: calc(100% - 3rem);
 
-.g_map iframe {
-  width: 100%;
-  height: 100%;
-  border-radius: 24px;
-  overflow: clip;
-  vertical-align: top;
+    iframe {
+        width: 100%;
+        height: 100%;
+        border-radius: 24px;
+        overflow: clip;
+        vertical-align: top
+    }
 }
 
 @keyframes spin {
-  from {
-    rotate: 0deg;
-  }
-  to {
-    rotate: 360deg;
-  }
-}
+    0% {
+        rotate: 0
+    }
 
-@keyframes scroll {
-  0% {
-    transform: translateX(100%);
-  }
-  100% {
-    transform: translateX(-100%);
-  }
-}
-
-@media (max-width: 899.98px) {
-  section {
-    width: 100%;
-    padding-inline: 5.33vw;
-    margin-block-start: 36.45vw;
-  }
-
-  .form_container {
-    grid-template-columns: none;
-    grid-template-rows: max-content 1fr;
-  }
-
-  .form_contact {
-    width: 100%;
-    margin: 0;
-    margin-block-end: 26.67vw;
-  }
-
-  .form_contact .form_header {
-    margin-block-end: 5.33vw;
-  }
-
-  .form_contact .form_header h1 {
-    font-size: 7.11vw;
-  }
-
-  .form_contact .form_header p {
-    font-size: 3.56vw;
-  }
-
-  .form_contact form {
-    gap: 3.56vw;
-    padding-inline: 2.67vw;
-  }
-
-  .form_item {
-    gap: 1.33vw;
-  }
-
-  .form_item label {
-    font-size: 3.56vw;
-  }
-
-  .form_item input,
-  .form_item textarea {
-    padding: 1.78vw 2.67vw;
-    border-radius: 0.89vw;
-    font-size: 3.56vw;
-    line-height: 3.56vw;
-  }
-
-  .error__message {
-    font-size: 2.67vw;
-  }
-
-  form > button {
-    padding: 1.78vw 3.56vw;
-    border-radius: 1.33vw;
-    gap: 1.67vw;
-    font-size: 3.56vw;
-  }
-
-  form > button svg {
-    width: 2.67vw;
-    height: 2.67vw;
-  }
-
-  .dds__loading-indicator .dds__loading-indicator__spinner {
-    border-width: 0.67vw;
-    width: 4.44vw;
-    height: 4.44vw;
-  }
-
-  .success-message p {
-    font-size: 3.56vw;
-  }
-
-  .aside_container {
-    margin-block-end: 36.45vw;
-    gap: 5.33vw;
-  }
-
-  .brands h3,
-  .address h3 {
-    font-size: 5.33vw;
-  }
-
-  .qxigfptd {
-    height: 10vw;
-  }
-
-  .g_map {
-    height: calc(106.67vw - 11.11vw);
-  }
-
-  .g_map iframe {
-    border-radius: 5.33vw;
-  }
+    to {
+        rotate: 360deg
+    }
 }

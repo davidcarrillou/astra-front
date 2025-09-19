@@ -20,8 +20,8 @@ export const CardItem: React.FC<CardItemProps> = ({ item }) => {
           aria-description={`${item.nombre_producto} - ${item.modelo}`}
         >
           {/* Badges dinámicos desde tags */}
-          {item.tags?.map((tag, i) => (
-            <div key={i} data-product-badge={tag}>
+          {item.tags?.map((tag, index) => (
+            <div key={index} data-product-badge={tag}>
               <div className={`badge-container ${tag.toLowerCase().replace(/\s/g, "-")}`}>
                 <span>{tag}</span>
               </div>
@@ -30,7 +30,7 @@ export const CardItem: React.FC<CardItemProps> = ({ item }) => {
 
           {/* Modelo */}
           <div data-product-model>
-            <strong data-model={item.nombre_producto} aria-label={item.nombre_producto} />
+            <strong data-model={item.marca} aria-label={item.marca} />
             <span>{item.modelo}</span>
           </div>
 
@@ -56,19 +56,19 @@ export const CardItem: React.FC<CardItemProps> = ({ item }) => {
 
               {item.descuento_porcentaje && (
                 <div className="product-old-price">
-                  <span className="tachado">${item.precio}</span>
-                  <span className="descuento">{item.descuento_porcentaje}% OFF</span>
+                  <span>${item.precio}</span>
+                  <span>{item.descuento_porcentaje}%</span>
                 </div>
               )}
             </div>
 
-            <div className={`stock-indicator ${item.cantidad_disponible > 0 ? "disponible" : "agotado"}`}>
+            {/* <div className={`stock-indicator ${item.cantidad_disponible > 0 ? "disponible" : "agotado"}`}>
               {item.cantidad_disponible > 0 ? "Disponible" : "Sin stock"}
-            </div>
+            </div> */}
 
-            <button type="button" tabIndex={-1}>
+            <div data-shopcard-add>
               Agregar al carrito
-            </button>
+            </div>
           </div>
         </div>
       </Link>
