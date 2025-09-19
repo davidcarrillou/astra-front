@@ -6,6 +6,7 @@ import NotData from "@/components/NotData"
 import Filtro from "@/components/filtro"
 import { CardItem } from "@/components/CardItem"
 import type { EstadoFiltros, itemCatalogo } from "@/types"
+import "./productos.css"
 
 export default function Productos() {
   const [paginaActual, setPaginaActual] = useState(1)
@@ -139,19 +140,21 @@ export default function Productos() {
 
   return (
     <section className="products-container">
-      <div className="filter-sidebar">
+      <div className="filter-sidebar active">
         <Filtro
           onCambiarFiltros={setFiltros}
           conteoProductos={productosFiltrados.length}
         />
       </div>
-
+      {/* <div className="filter-backdrop" /> */}
       <div className="products-content">
         <div className="search-section">
+          <label htmlFor="filter_search" className=":hd-tag">Ingrese el producto a buscar</label>
           <input
+            id="filter_search"
             type="text"
             placeholder="Buscar productos..."
-            className="busqueda-input"
+            className="search-input"
             value={busqueda}
             onChange={(e) => setBusqueda(e.target.value)}
           />
